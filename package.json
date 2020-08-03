@@ -1,0 +1,34 @@
+{
+  "name": "com.vulpes.menus",
+  "displayName": "Vulpes Menu Framework",
+  "version": "0.1.0-preview.1",
+  "unity": "2019.1",
+  "description": "A Promise driven game menu framework for Unity.",
+  "keywords": [
+    "vulpes",
+    "menus"
+  ],
+  "license": "MIT License",
+  "author": {
+    "name": "Vulpes Software",
+    "email": "tylahheil@gmail.com",
+    "url": "https://vulpessoftware.com"
+  },
+  "dependencies": {
+    "com.unity.ugui": "1.0.0",
+    "com.unity.textmeshpro": "2.0.1",
+    "com.vulpes.promises": "1.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Basic UI Sprites",
+      "description": "A collection of simple UI Sprites that can be used when blocking out Menus. You can use them as is, or as placeholders when blocking out screens.",
+      "path": "Samples~/Basic UI Sprites"
+    },
+    {
+      "displayName": "Menu Templates",
+      "description": "A collection of sample screens and widgets that demonstrate various menu framework implementations. You can use them as is, or as templates to build out your own screens and widgets.",
+      "path": "Samples~/Menu Templates"
+    }
+  ]
+}

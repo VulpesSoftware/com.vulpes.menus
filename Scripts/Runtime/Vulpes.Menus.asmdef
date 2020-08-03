@@ -1,0 +1,17 @@
+{
+    "name": "Vulpes.Menus",
+    "references": [
+        "UnityEngine.UI",
+        "Unity.TextMeshPro",
+        "Vulpes.Promises"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
