@@ -79,14 +79,12 @@ namespace Vulpes.Menus.Experimental
 
         private void OnPreviousButtonClick()
         {
-            value = Mathf.Max(minValue, value - stepValue);
-            OnValueChanged(value);
+            Value = Mathf.Max(minValue, Value - stepValue);
         }
 
         private void OnNextButtonClick()
         {
-            value = Mathf.Min(maxValue, value + stepValue);
-            OnValueChanged(value);
+            Value = Mathf.Min(maxValue, Value + stepValue);
         }
 
         private void OnInputFieldEndEdit(string asText)
@@ -94,22 +92,18 @@ namespace Vulpes.Menus.Experimental
             if (int.TryParse(asText, out int newValue))
             {
                 newValue = Mathf.Clamp(newValue, minValue, maxValue);
-                value = newValue;
+                Value = newValue;
             }
-            OnValueChanged(value);
+        }
+
+        private void OnInputFieldSubmit(string asText)
+        {
+            Select();
         }
 
         private void OnSliderValueChanged(float afValue)
         {
-            value = Mathf.Clamp((int)afValue, minValue, maxValue);
-            OnValueChanged(value);
-        }
-
-        protected override void OnValueChanged(int newValue)
-        {
-            slider.value = value;
-            inputField.text = value.ToString();
-            base.OnValueChanged(newValue);
+            Value = Mathf.Clamp((int)afValue, minValue, maxValue);
         }
 
         public override void OnSubmit(BaseEventData eventData)
@@ -119,9 +113,11 @@ namespace Vulpes.Menus.Experimental
             inputField.ActivateInputField();
         }
 
-        private void OnInputFieldSubmit(string asText)
+        protected override void OnValueChanged(int newValue)
         {
-            Select();
+            slider.value = newValue;
+            inputField.text = newValue.ToString();
+            base.OnValueChanged(newValue);
         }
     }
 }

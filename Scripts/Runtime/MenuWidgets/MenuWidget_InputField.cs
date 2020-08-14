@@ -23,6 +23,7 @@ namespace Vulpes.Menus.Experimental
             set
             {
                 inputField.text = value;
+                OnValueChanged(value);
             }
         }
 

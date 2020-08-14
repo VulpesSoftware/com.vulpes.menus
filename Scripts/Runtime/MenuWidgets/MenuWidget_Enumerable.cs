@@ -12,20 +12,20 @@ namespace Vulpes.Menus.Experimental
     [AddComponentMenu("Vulpes/Menus/Widgets/Enumerable")]
     public sealed class MenuWidget_Enumerable : MenuWidget<int>
     {
-        [SerializeField] private TextMeshProUGUI headerText = default;
-        [SerializeField] private Button previousButton = default;
-        [SerializeField] private Button nextButton = default;
-        [SerializeField] private TextMeshProUGUI text = default;
-
-        [SerializeField, Tooltip("Reverses the order of enumeration.")] 
+        [SerializeField, Tooltip("Reverses the order of enumeration.")]
         private bool reverse = false;
 
-        [SerializeField, Tooltip("The available options when cycling the enumerable.")] 
+        [SerializeField, Tooltip("The available options when cycling the enumerable.")]
         private string[] options = new string[2]
         {
             "Disabled",
             "Enabled"
         };
+
+        [SerializeField] private TextMeshProUGUI headerText = default;
+        [SerializeField] private Button previousButton = default;
+        [SerializeField] private Button nextButton = default;
+        [SerializeField] private TextMeshProUGUI text = default;
 
         public string[] Options
         {
@@ -101,28 +101,29 @@ namespace Vulpes.Menus.Experimental
 
         private void OnPreviousButtonClick()
         {
-            //value = options.Length % value--;
-            value--;
-            if (value < 0)
+            if (Value - 1 < 0)
             {
-                value = options.Length - 1;
+                Value = options.Length - 1;
+            } else
+            {
+                Value--;
             }
-            OnValueChanged(value);
         }
 
         private void OnNextButtonClick()
         {
-            value++;
-            if (value >= options.Length)
+            if (Value + 1 >= options.Length)
             {
-                value = 0;
+                Value = 0;
+            } else
+            {
+                Value++;
             }
-            OnValueChanged(value);
         }
 
         protected override void OnValueChanged(int newValue)
         {
-            text.text = options[Mathf.Clamp(value, 0, options.Length - 1)];
+            text.text = options[Mathf.Clamp(Value, 0, options.Length - 1)];
             base.OnValueChanged(newValue);
         }
     }
