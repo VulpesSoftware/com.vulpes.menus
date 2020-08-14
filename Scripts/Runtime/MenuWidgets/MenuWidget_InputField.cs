@@ -9,13 +9,12 @@ namespace Vulpes.Menus.Experimental
     /// Note: This is an experimental feature use it at your own peril.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Input Field")]
-    public sealed class MenuWidget_InputField : MenuWidget
+    public sealed class MenuWidget_InputField : MenuWidget<string>
     {
         [SerializeField] private TextMeshProUGUI headerText = default;
-
         [SerializeField] private TMP_InputField inputField = default;
 
-        public string Value
+        public override string Value
         {
             get
             {
@@ -29,7 +28,7 @@ namespace Vulpes.Menus.Experimental
 
         public void Initialize(string asHeader, string asDefault)
         {
-            headerText.text = asHeader.ToUpper();
+            headerText.text = asHeader;
             inputField.text = asDefault;
         }
 
@@ -39,7 +38,7 @@ namespace Vulpes.Menus.Experimental
             if (Application.isPlaying)
             {
                 inputField.onSubmit.RemoveAllListeners();
-                inputField.onSubmit.AddListener(OnInputFieldSubmit);
+                inputField.onSubmit.AddListener(OnValueChanged);
             }
         }
 
@@ -50,10 +49,10 @@ namespace Vulpes.Menus.Experimental
             inputField.ActivateInputField();
         }
 
-        private void OnInputFieldSubmit(string asText)
+        protected override void OnValueChanged(string newValue)
         {
             Select();
-            OnValueChanged();
+            base.OnValueChanged(newValue);
         }
     }
 }

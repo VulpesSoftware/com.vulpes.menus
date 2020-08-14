@@ -18,7 +18,7 @@ namespace Vulpes.Menus.Experimental
 
         public void Initialize(string asHeader, Action akOnClick)
         {
-            headerText.text = asHeader.ToUpper();
+            headerText.text = asHeader;
             OnClickEvent -= akOnClick;
             OnClickEvent += akOnClick;
         }

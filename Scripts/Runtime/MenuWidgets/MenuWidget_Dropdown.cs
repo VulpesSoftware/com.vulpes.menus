@@ -9,13 +9,12 @@ namespace Vulpes.Menus.Experimental
     /// Note: This is an experimental feature use it at your own peril.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Dropdown")]
-    public sealed class MenuWidget_Dropdown : MenuWidget
+    public sealed class MenuWidget_Dropdown : MenuWidget<int>
     {
         [SerializeField] private TextMeshProUGUI headerText = default;
-
         [SerializeField] private TMP_Dropdown dropdown = default;
 
-        public int Value
+        public override int Value
         {
             get
             {
@@ -29,7 +28,7 @@ namespace Vulpes.Menus.Experimental
 
         public void Initialize(string asHeader)
         {
-            headerText.text = asHeader.ToUpper();
+            headerText.text = asHeader;
         }
 
         protected override void Awake()
@@ -38,7 +37,7 @@ namespace Vulpes.Menus.Experimental
             if (Application.isPlaying)
             {
                 dropdown.onValueChanged.RemoveAllListeners();
-                dropdown.onValueChanged.AddListener(OnDropdownValueChanged);
+                dropdown.onValueChanged.AddListener(OnValueChanged);
             }
         }
 
@@ -49,11 +48,11 @@ namespace Vulpes.Menus.Experimental
             dropdown.Show();
         }
 
-        private void OnDropdownValueChanged(int aiIndex)
+        protected override void OnValueChanged(int newValue)
         {
             dropdown.Hide();
             Select();
-            OnValueChanged();
+            base.OnValueChanged(newValue);
         }
     }
 }

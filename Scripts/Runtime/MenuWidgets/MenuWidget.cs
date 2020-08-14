@@ -10,11 +10,14 @@ namespace Vulpes.Menus.Experimental
     /// Note: This is an experimental feature use it at your own peril.
     /// </summary>
     [DisallowMultipleComponent]
-    public abstract class MenuWidget : Selectable, IPointerClickHandler, ISubmitHandler
+    public abstract class MenuWidget : Selectable, IPointerClickHandler, ISubmitHandler 
     {
-        [NonSerialized] public bool valueChanged;
-
         private ScrollRect scrollRect;
+
+        public event Action<BaseEventData> OnSelectEvent;
+        public event Action<PointerEventData> OnPointerEnterEvent;
+        public event Action<PointerEventData> OnPointerClickEvent;
+        public event Action<BaseEventData> OnSubmitEvent;
 
         protected override void Awake()
         {
@@ -25,55 +28,82 @@ namespace Vulpes.Menus.Experimental
         public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);
-            // TODO Fire an event here.
+            OnSelectEvent?.Invoke(eventData);
             if (scrollRect != null)
             {
                 // FIXME This is for automatically scrolling the scroll view up and down, need to make sure it's working as intended.
-                // TODO Adding left and right scrolling might aslo be nice.
+                // TODO Adding left and right scrolling might also be nice.
                 float contentHeight = scrollRect.content.rect.height;
                 float viewportHeight = scrollRect.viewport.rect.height;
-                float centerLine = eventData.selectedObject.transform.localPosition.y;
-                float rectHeight = eventData.selectedObject.GetComponent<RectTransform>().rect.height;
-                float upperBound = centerLine + (rectHeight * 1.0f);
-                float lowerBound = centerLine - (rectHeight * 1.0f);
+                float centerLineY = eventData.selectedObject.transform.localPosition.y;
+                RectTransform rectTransform = eventData.selectedObject.GetComponent<RectTransform>();
+                float rectHeight = rectTransform.rect.height;
+                float lowerBound = centerLineY - (rectHeight * 1.0f);
+                float upperBound = centerLineY + (rectHeight * 1.0f);
                 float lowerVisible = (contentHeight - viewportHeight) * scrollRect.normalizedPosition.y - contentHeight;
                 float upperVisible = lowerVisible + viewportHeight;
-                float desiredLowerBound;
+                float desiredBoundY;
                 if (upperBound > upperVisible)
                 {
-                    desiredLowerBound = upperBound - viewportHeight + (rectHeight * 1.0f);
+                    desiredBoundY = upperBound - viewportHeight + (rectHeight * 1.0f);
                 } else if (lowerBound < lowerVisible)
                 {
-                    desiredLowerBound = lowerBound - (rectHeight * 1.0f);
+                    desiredBoundY = lowerBound - (rectHeight * 1.0f);
                 } else
                 {
                     return;
                 }
-                float normalizedDesired = (desiredLowerBound + contentHeight) / (contentHeight - viewportHeight);
-                scrollRect.normalizedPosition = new Vector2(0.0f, Mathf.Clamp01(normalizedDesired));
+                float normalizedDesiredY = (desiredBoundY + contentHeight) / (contentHeight - viewportHeight);
+                scrollRect.normalizedPosition = new Vector2(0.0f, Mathf.Clamp01(normalizedDesiredY));
             }
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
             base.OnPointerEnter(eventData);
-            // TODO Fire an event here.
+            OnPointerEnterEvent?.Invoke(eventData);
         }
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {
-            // TODO Fire an event here.
+            OnPointerClickEvent?.Invoke(eventData);
         }
 
         public virtual void OnSubmit(BaseEventData eventData)
         {
-            // TODO Fire an event here.
+            OnSubmitEvent?.Invoke(eventData);
+        }
+    }
+
+    /// <summary>
+    /// Base class for all Menu Widgets.
+    /// Note: This is an experimental feature use it at your own peril.
+    /// </summary>
+    [DisallowMultipleComponent]
+    public abstract class MenuWidget<T> : MenuWidget 
+        where T : IComparable
+    {
+        [SerializeField, Tooltip("The value of the Widget.")] 
+        protected T value = default;
+
+        public event Action<T> OnValueChangedEvent;
+
+        public virtual T Value
+        {
+            get
+            {
+                return value;
+            }
+            set
+            {
+                this.value = value;
+                OnValueChanged(this.value);
+            }
         }
 
-        protected virtual void OnValueChanged()
+        protected virtual void OnValueChanged(T newValue)
         {
-            valueChanged = true;
-            // TODO Fire an event here.
+            OnValueChangedEvent?.Invoke(newValue);
         }
     }
 }

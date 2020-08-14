@@ -10,35 +10,24 @@ namespace Vulpes.Menus.Experimental
     /// Note: This is an experimental feature use it at your own peril.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Slider")]
-    public sealed class MenuWidget_Slider : MenuWidget
+    public sealed class MenuWidget_Slider : MenuWidget<int>
     {
+        [SerializeField, Tooltip("The minimum value of the slider.")] 
+        private int minValue = 0;
+        [SerializeField, Tooltip("The maximum value of the slider.")] 
+        private int maxValue = 100;
+        [SerializeField, Tooltip("The value to increment / decrement the slider by when pressing buttons.")] 
+        private int stepValue = 5;
+
         [SerializeField] private TextMeshProUGUI headerText = default;
         [SerializeField] private Button previousButton = default;
         [SerializeField] private Button nextButton = default;
         [SerializeField] private Slider slider = default;
         [SerializeField] private TMP_InputField inputField = default;
 
-        [SerializeField] private int value = 100;
-        [SerializeField] private int minValue = 0;
-        [SerializeField] private int maxValue = 100;
-        [SerializeField] private int stepValue = 5;
-
-        public int Value
-        {
-            get
-            {
-                return value;
-            }
-            set
-            {
-                this.value = value;
-                OnValueChanged();
-            }
-        }
-
         public void Initialize(string asHeader, int aiValue, int aiMinValue, int aiMaxValue, int aiStepValue)
         {
-            headerText.text = asHeader.ToUpper();
+            headerText.text = asHeader;
             value = aiValue;
             minValue = aiMinValue;
             maxValue = aiMaxValue;
@@ -91,13 +80,13 @@ namespace Vulpes.Menus.Experimental
         private void OnPreviousButtonClick()
         {
             value = Mathf.Max(minValue, value - stepValue);
-            OnValueChanged();
+            OnValueChanged(value);
         }
 
         private void OnNextButtonClick()
         {
             value = Mathf.Min(maxValue, value + stepValue);
-            OnValueChanged();
+            OnValueChanged(value);
         }
 
         private void OnInputFieldEndEdit(string asText)
@@ -107,20 +96,20 @@ namespace Vulpes.Menus.Experimental
                 newValue = Mathf.Clamp(newValue, minValue, maxValue);
                 value = newValue;
             }
-            OnValueChanged();
+            OnValueChanged(value);
         }
 
         private void OnSliderValueChanged(float afValue)
         {
             value = Mathf.Clamp((int)afValue, minValue, maxValue);
-            OnValueChanged();
+            OnValueChanged(value);
         }
 
-        protected override void OnValueChanged()
+        protected override void OnValueChanged(int newValue)
         {
             slider.value = value;
             inputField.text = value.ToString();
-            base.OnValueChanged();
+            base.OnValueChanged(newValue);
         }
 
         public override void OnSubmit(BaseEventData eventData)

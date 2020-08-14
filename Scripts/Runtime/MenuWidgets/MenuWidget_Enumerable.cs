@@ -10,37 +10,22 @@ namespace Vulpes.Menus.Experimental
     /// Note: This is an experimental feature use it at your own peril.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Enumerable")]
-    public sealed class MenuWidget_Enumerable : MenuWidget
+    public sealed class MenuWidget_Enumerable : MenuWidget<int>
     {
         [SerializeField] private TextMeshProUGUI headerText = default;
-
         [SerializeField] private Button previousButton = default;
         [SerializeField] private Button nextButton = default;
-
         [SerializeField] private TextMeshProUGUI text = default;
 
-        [SerializeField] private int index = 0;
+        [SerializeField, Tooltip("Reverses the order of enumeration.")] 
+        private bool reverse = false;
 
-        [SerializeField] private bool reverse = false;
-
-        [SerializeField] private string[] options = new string[2]
+        [SerializeField, Tooltip("The available options when cycling the enumerable.")] 
+        private string[] options = new string[2]
         {
             "Disabled",
             "Enabled"
         };
-
-        public int Value
-        {
-            get
-            {
-                return index;
-            }
-            set
-            {
-                index = value;
-                OnValueChanged();
-            }
-        }
 
         public string[] Options
         {
@@ -56,8 +41,8 @@ namespace Vulpes.Menus.Experimental
 
         public void Initialize(string asHeader, int aiIndex, string[] asOptions)
         {
-            headerText.text = asHeader.ToUpper();
-            index = aiIndex;
+            headerText.text = asHeader;
+            value = aiIndex;
             options = asOptions;
         }
 
@@ -67,9 +52,9 @@ namespace Vulpes.Menus.Experimental
             if (Application.isPlaying)
             {
                 // Clamp index so that we don't start out of range.
-                index = Mathf.Clamp(index, 0, options.Length - 1);
+                value = Mathf.Clamp(value, 0, options.Length - 1);
                 // Set the text.
-                text.text = options[index];
+                text.text = options[value];
                 // Map the buttons.
                 if (!reverse)
                 {
@@ -116,28 +101,29 @@ namespace Vulpes.Menus.Experimental
 
         private void OnPreviousButtonClick()
         {
-            index--;
-            if (index < 0)
+            //value = options.Length % value--;
+            value--;
+            if (value < 0)
             {
-                index = options.Length - 1;
+                value = options.Length - 1;
             }
-            OnValueChanged();
+            OnValueChanged(value);
         }
 
         private void OnNextButtonClick()
         {
-            index++;
-            if (index >= options.Length)
+            value++;
+            if (value >= options.Length)
             {
-                index = 0;
+                value = 0;
             }
-            OnValueChanged();
+            OnValueChanged(value);
         }
 
-        protected override void OnValueChanged()
+        protected override void OnValueChanged(int newValue)
         {
-            text.text = options[Mathf.Clamp(index, 0, options.Length - 1)];
-            base.OnValueChanged();
+            text.text = options[Mathf.Clamp(value, 0, options.Length - 1)];
+            base.OnValueChanged(newValue);
         }
     }
 }
