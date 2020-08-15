@@ -14,9 +14,17 @@ namespace Vulpes.Menus
     {
         protected CanvasGroup canvasGroup;
 
-        [SerializeField] protected bool showCursor = false;
-        [SerializeField] protected Selectable defaultSelection = default;
-        [SerializeField] protected MenuTransition transition = default;
+        [SerializeField, Tooltip("If true the mouse cursor will be unlocked on this screen.")] 
+        protected bool showCursor = false;
+
+        [SerializeField, Tooltip("If true this screen will remember the previous selection and use it as the default.")] 
+        protected bool rememberSelection = false;
+
+        [SerializeField, Tooltip("If assigned this will be the default selection when this menu appears.")] 
+        protected Selectable defaultSelection = default;
+
+        [SerializeField, Tooltip("If assigned the menu will use this transition when transitioning in and out.")] 
+        protected MenuTransition transition = default;
 
         /// <summary>
         /// Called when the Menu Screen will appear (executed after the 'OnWillAppear' method for this screen).
@@ -82,6 +90,8 @@ namespace Vulpes.Menus
             }
         }
 
+        public Selectable DefaultSelection { get; set; }
+
         public void Initialize(IMenuHandler akMenuHandler)
         {
             MenuHandler = akMenuHandler;
@@ -89,6 +99,7 @@ namespace Vulpes.Menus
             State = MenuScreenState.Out;
             Interactable = false;
             BlocksRaycasts = false;
+            DefaultSelection = defaultSelection;
             gameObject.SetActive(false);
             OnInitialize();
         }
@@ -168,9 +179,9 @@ namespace Vulpes.Menus
                     // TBH: This is where the standard resume time logic was.
                     Interactable = true;
                     BlocksRaycasts = true;
-                    if (defaultSelection != null)
+                    if (DefaultSelection != null)
                     {
-                        MenuHandler.EventSystem.SetSelectedGameObject(defaultSelection.gameObject);
+                        MenuHandler.EventSystem.SetSelectedGameObject(DefaultSelection.gameObject);
                     }
                     OnStateChangedEvent?.Invoke(State, MenuScreenState.In);
                     State = MenuScreenState.In;
@@ -199,6 +210,13 @@ namespace Vulpes.Menus
             }
             transitionOutPromise = Promise.Create();
             IPromise result = transitionOutPromise;
+            if (rememberSelection && EventSystem.current.currentSelectedGameObject != null)
+            {
+                DefaultSelection = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
+            } else
+            {
+                DefaultSelection = defaultSelection;
+            }
             EventSystem.current.SetSelectedGameObject(null);
             Interactable = false;
             BlocksRaycasts = false;
