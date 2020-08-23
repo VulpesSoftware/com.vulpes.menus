@@ -6,6 +6,11 @@ using System;
 
 namespace Vulpes.Menus
 {
+    /// <summary>
+    /// The <b>Menu Dialogue</b> is a verbose popup that can be used to query the user 
+    /// and can be displayed with either one, two or three configurable buttons. The resulting 
+    /// <b>Promise</b> resolves with a <b>MenuDialogueResult</b> based on the button pressed.
+    /// </summary>
     [AddComponentMenu("Vulpes/Menus/Menu Dialogue")]
     public sealed class MenuDialogue : MenuScreen, IMenuDialogue
     {

@@ -6,6 +6,10 @@ using Vulpes.Promises;
 
 namespace Vulpes.Menus
 {
+    /// <summary>
+    /// The <b>Menu Alert</b> is a universal, non-intrusive popup that can be shown for 
+    /// a specified duration or until a <b>Promise</b> resolves.
+    /// </summary>
     [AddComponentMenu("Vulpes/Menus/Menu Alert"), RequireComponent(typeof(CanvasGroup))]
     public sealed class MenuAlert : UIBehaviour, IMenuAlert
     {
@@ -16,6 +20,10 @@ namespace Vulpes.Menus
         private IPromise promiseChain;
         private PromiseTimer promiseTimer;
 
+        /// <summary>
+        /// Updates the Promise Timer and creates it if it doesn't exist.
+        /// </summary>
+        /// <param name="afDeltaTime"></param>
         public void UpdateTimer(float afDeltaTime)
         {
             if (promiseTimer == null)

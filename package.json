@@ -1,7 +1,7 @@
 {
   "name": "com.vulpes.menus",
   "displayName": "Vulpes Menu Framework",
-  "version": "0.2.1-preview.1",
+  "version": "0.2.1-preview.2",
   "unity": "2019.1",
   "description": "A Promise driven game menu framework for Unity.",
   "keywords": [

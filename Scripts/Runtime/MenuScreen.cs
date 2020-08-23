@@ -7,7 +7,7 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Base class for all Menu Screens, contains controls for Time and Cursor Visibility states as well as the Transition type.
+    /// Base class for all <b>Menu Screens</b>, contains controls for Cursor Visibility state as well as the <b>Transition</b> type.
     /// </summary>
     [RequireComponent(typeof(CanvasGroup)), DisallowMultipleComponent]
     public abstract class MenuScreen : UIBehaviour, IMenuScreen
@@ -92,6 +92,9 @@ namespace Vulpes.Menus
 
         public Selectable DefaultSelection { get; set; }
 
+        /// <summary>
+        /// Initializes the Menu Screen.
+        /// </summary>
         public void Initialize(IMenuHandler akMenuHandler)
         {
             MenuHandler = akMenuHandler;

@@ -6,7 +6,7 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Base class for all Menu Transitions.
+    /// Base class for all <b>Menu Transitions<\b>.
     /// </summary>
     public abstract class MenuTransition : MonoBehaviour, IMenuTransition
     {

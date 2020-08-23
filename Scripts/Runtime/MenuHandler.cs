@@ -7,7 +7,7 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// The Menu Handler is responsible for managing and transitioning Menu Screens.
+    /// The <b>Menu Handler<\b> is responsible for managing and transitioning <b>Menu Screens<\b>.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Menu Handler"), RequireComponent(typeof(CanvasGroup)), DefaultExecutionOrder(-50), DisallowMultipleComponent]
     public sealed class MenuHandler : UIBehaviour, IMenuHandler
