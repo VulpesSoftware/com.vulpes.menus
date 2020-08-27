@@ -12,6 +12,8 @@ namespace Vulpes.Menus
     [AddComponentMenu("Vulpes/Menus/Menu Handler"), RequireComponent(typeof(CanvasGroup)), DefaultExecutionOrder(-50), DisallowMultipleComponent]
     public sealed class MenuHandler : UIBehaviour, IMenuHandler
     {
+        [SerializeField] private MenuScreen initialScreen = default;
+
         /// <summary>
         /// The event system used by this handler.
         /// </summary>
@@ -69,7 +71,7 @@ namespace Vulpes.Menus
         {
             get
             {
-                return ScreenStack.Count > 0;
+                return ScreenStack != null && ScreenStack.Count > 0;
             }
         }
 
@@ -112,6 +114,7 @@ namespace Vulpes.Menus
         protected override void Awake()
         {
             base.Awake();
+            ScreenStack = new Stack<IMenuScreen>();
             EventSystem = EventSystem.current;
             CanvasGroup = GetComponent<CanvasGroup>();
             Screens = GetComponentsInChildren<IMenuScreen>(true);
@@ -122,6 +125,10 @@ namespace Vulpes.Menus
             ScreenStack = new Stack<IMenuScreen>();
             Dialogue = GetScreen<MenuDialogue>();
             Alert = GetComponentInChildren<MenuAlert>(true);
+            if (initialScreen != null)
+            {
+                PushScreen(initialScreen);
+            }
         }
 
         private void Update()

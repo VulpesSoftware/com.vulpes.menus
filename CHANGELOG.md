@@ -4,6 +4,17 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.2.2-preview.1] - 2020-08-27
+### Changed
+- Fixed issue when pushing screen with uninitialised screen stack.
+
+### Added
+- Added initial screen option to Menu Handler, this screen will automatically be pushed at startup if assigned.
+
+## [0.2.1-preview.2] - 2020-08-23
+### Changed
+- Updated some method summaries.
+
 ## [0.2.1-preview.1] - 2020-08-15
 ### Changed
 - MenuScreens now include an option to remember the last selected item prior to transitioning out.
