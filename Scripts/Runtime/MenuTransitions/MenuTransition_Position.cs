@@ -36,10 +36,10 @@ namespace Vulpes.Menus
         {
             if (useLocalSpace)
             {
-                targetTransform.localPosition = Vector2.LerpUnclamped(start, end, afTime);
+                targetTransform.localPosition = Vector3.LerpUnclamped(start, end, Curve.Evaluate(afTime));
             } else
             {
-                targetTransform.position = Vector2.LerpUnclamped(start, end, afTime);
+                targetTransform.position = Vector3.LerpUnclamped(start, end, afTime);
             }
         }
 

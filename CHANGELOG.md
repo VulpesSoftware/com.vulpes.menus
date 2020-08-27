@@ -4,6 +4,10 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.2.3-preview.1] - 2020-08-27
+### Changed
+- Fixed an issue with Position, Euler Angles, and Scale MenuTransitions where they were lerping as Vector2s instead of Vector3s.
+
 ## [0.2.2-preview.1] - 2020-08-27
 ### Changed
 - Fixed issue when pushing screen with uninitialised screen stack.

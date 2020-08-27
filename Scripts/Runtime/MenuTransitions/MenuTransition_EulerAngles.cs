@@ -33,10 +33,10 @@ namespace Vulpes.Menus
         {
             if (useLocalSpace)
             {
-                targetTransform.localEulerAngles = Vector2.LerpUnclamped(start, end, afTime);
+                targetTransform.localEulerAngles = Vector3.LerpUnclamped(start, end, Curve.Evaluate(afTime));
             } else
             {
-                targetTransform.eulerAngles = Vector2.LerpUnclamped(start, end, afTime);
+                targetTransform.eulerAngles = Vector3.LerpUnclamped(start, end, afTime);
             }
         }
 

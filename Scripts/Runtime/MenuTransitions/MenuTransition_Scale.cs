@@ -33,7 +33,7 @@ namespace Vulpes.Menus
 
         protected override void OnTransitionUpdate(float afTime)
         {
-            targetTransform.localScale = Vector2.LerpUnclamped(start, end, afTime);
+            targetTransform.localScale = Vector3.LerpUnclamped(start, end, afTime);
         }
 
         protected override void OnTransitionEnd()
