@@ -4,8 +4,8 @@ namespace Vulpes.Menus
 {
     public enum MenuTransitionMode
     {
-        Forward = 0,
-        Reverse = 1,
+        Reverse = 0,
+        Forward = 1,
     }
 
     public interface IMenuTransition 
