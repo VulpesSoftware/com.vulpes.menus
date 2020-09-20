@@ -354,7 +354,7 @@ namespace Vulpes.Menus
         [SerializeField] protected T start = default;
         [SerializeField] protected T end = default;
 
-        public T Start
+        public virtual T Start
         {
             get
             {
@@ -366,7 +366,7 @@ namespace Vulpes.Menus
             }
         }
 
-        public T End
+        public virtual T End
         {
             get
             {
