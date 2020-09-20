@@ -92,6 +92,19 @@ namespace Vulpes.Menus
 
         public Selectable DefaultSelection { get; set; }
 
+        public bool IsCurrentScreen
+        {
+            get
+            {
+                if (MenuHandler == null)
+                {
+                    Debug.LogError("No Menu Handler Assigned!");
+                    return false;
+                }
+                return MenuHandler.CurrentScreen == (object)this;
+            }
+        }
+
         /// <summary>
         /// Initializes the Menu Screen.
         /// </summary>
