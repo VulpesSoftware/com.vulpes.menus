@@ -23,7 +23,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Updates the Promise Timer and creates it if it doesn't exist.
         /// </summary>
-        /// <param name="afDeltaTime"></param>
+        /// <param name="afDeltaTime">Current deltaTime used for incrementing the timer.</param>
         public void UpdateTimer(float afDeltaTime)
         {
             if (promiseTimer == null)
