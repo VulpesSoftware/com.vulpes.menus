@@ -4,6 +4,11 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.1-preview.1] - 2020-09-20
+### Changed
+- Made Start and End values of MenuTransition virtual so that they can be overridden.
+- Fixed issue with MenuTransition_AnchoredPosition where changing the Start and End values at runtime would have no effect.
+
 ## [0.3.0-preview.1] - 2020-09-20
 ### Changed
 - Changed default value of MenuTransitionMode to Reverse, was Forward. This should resolve an issue where some menus wouldn't transition in correctly.
