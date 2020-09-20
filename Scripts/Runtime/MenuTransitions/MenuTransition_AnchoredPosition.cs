@@ -15,6 +15,32 @@ namespace Vulpes.Menus
         private Vector2 startPosition;
         private Vector2 endPosition;
 
+        public override Vector2 Start
+        {
+            get
+            {
+                return startPosition;
+            }
+            set
+            {
+                start = value;
+                startPosition = useViewportSpace ? Vector2.Scale(start, new Vector2(Screen.width, Screen.height)) + initialOffset : start;
+            }
+        }
+
+        public override Vector2 End
+        {
+            get
+            {
+                return endPosition;
+            }
+            set
+            {
+                end = value;
+                endPosition = useViewportSpace ? Vector2.Scale(end, new Vector2(Screen.width, Screen.height)) + initialOffset : end;
+            }
+        }
+
         public override Vector2 Current
         {
             get
