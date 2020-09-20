@@ -24,6 +24,8 @@ namespace Vulpes.Menus
         [SerializeField] private Button cancelButton = default;
         [SerializeField] private Button alternateButton = default;
 
+        private IPromise promiseChain;
+
         /// <summary>
         /// Sets the text for the Dialogue and disables any buttons with no text.
         /// </summary>
@@ -68,13 +70,16 @@ namespace Vulpes.Menus
             return ShowInternal(asTitleText, asBodyText, asConfirmText, asCancelText, asAlternateText, akOnConfirm, akOnCancel, akOnAlternate);
         }
 
-
         /// <summary>
         /// Transitions in the Dialogue and returns a Promise that resolves when a button is pressed.
         /// </summary>
         private IPromise<MenuDialogueResult> ShowInternal(string asTitleText, string asBodyText, string asConfirmText, string asCancelText, string asAlternateText, Action akOnConfirm = null, Action akOnCancel = null, Action akOnAlternate = null)
         {
-            // TODO Need to make this more like the Alert so that more dialogues can be chained together.
+            if (IsCurrentScreen)
+            {
+                Debug.LogWarning("Menu Dialogue is already in use, you cannot display another Dialogue until the existing one is dismissed.");
+                return Promise<MenuDialogueResult>.Rejected(null);
+            }
 
             IPromise<MenuDialogueResult> promise = Promise<MenuDialogueResult>.Create();
 
@@ -88,21 +93,21 @@ namespace Vulpes.Menus
             {
                 HideInternal().Done(() => {
                     akOnConfirm?.Invoke();
-                    promise.Resolve(MenuDialogueResult.Confirm); 
+                    promise.Resolve(MenuDialogueResult.Confirm);
                 });
             });
             cancelButton.onClick.AddListener(() =>
             {
                 HideInternal().Done(() => {
                     akOnCancel?.Invoke();
-                    promise.Resolve(MenuDialogueResult.Cancel); 
+                    promise.Resolve(MenuDialogueResult.Cancel);
                 });
             });
             alternateButton.onClick.AddListener(() =>
             {
                 HideInternal().Done(() => {
                     akOnAlternate?.Invoke();
-                    promise.Resolve(MenuDialogueResult.Alternate); 
+                    promise.Resolve(MenuDialogueResult.Alternate);
                 });
             });
 
