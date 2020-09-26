@@ -5,7 +5,7 @@ using TMPro;
 namespace Vulpes.Menus
 {
     [AddComponentMenu("Vulpes/Menus/Menu Loading")]
-    public sealed class MenuLoading : MenuScreen
+    public class MenuLoading : MenuScreen
     {
         // All values on this screen are optional in order to allow it to be easily customised on a per-project basis.
 

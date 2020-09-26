@@ -7,11 +7,11 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// The <b>Menu Alert</b> is a universal, non-intrusive popup that can be shown for 
-    /// a specified duration or until a <b>Promise</b> resolves.
+    /// The <see cref="MenuAlert"/> is a universal, non-intrusive popup that can be shown for 
+    /// a specified duration or until a <see cref="Promise"/> resolves.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Menu Alert"), RequireComponent(typeof(CanvasGroup))]
-    public sealed class MenuAlert : UIBehaviour, IMenuAlert
+    public class MenuAlert : UIBehaviour, IMenuAlert
     {
         [SerializeField] private TextMeshProUGUI alertText = default;
         [SerializeField] private Image iconImage = default;
@@ -21,7 +21,7 @@ namespace Vulpes.Menus
         private PromiseTimer promiseTimer;
 
         /// <summary>
-        /// Updates the Promise Timer and creates it if it doesn't exist.
+        /// Updates the <see cref="PromiseTimer"/> and creates it if it doesn't exist.
         /// </summary>
         /// <param name="afDeltaTime">Current deltaTime used for incrementing the timer.</param>
         public void UpdateTimer(float afDeltaTime)
@@ -47,7 +47,7 @@ namespace Vulpes.Menus
 
         /// <summary>
         /// Shows an Alert with the specified message and icon and returns 
-        /// a Promise that resolves automatically after the specified duration.
+        /// a <see cref="Promise"/> that resolves automatically after the specified duration.
         /// </summary>
         public IPromise Show(string asMessage, Sprite akIcon, float afDuration)
         {
@@ -73,7 +73,7 @@ namespace Vulpes.Menus
 
         /// <summary>
         /// Shows an Alert with the specified message and icon and returns 
-        /// a Promise that resolves one second after the provided Promise resolves.
+        /// a Promise that resolves one second after the provided <see cref="Promise"/> resolves.
         /// </summary>
         public IPromise Show(string asMessage, Sprite akIcon, IPromise akPromise)
         {

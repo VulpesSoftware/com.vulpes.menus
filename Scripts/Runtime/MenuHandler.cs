@@ -10,7 +10,7 @@ namespace Vulpes.Menus
     /// The <b>Menu Handler<\b> is responsible for managing and transitioning <b>Menu Screens<\b>.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Menu Handler"), RequireComponent(typeof(CanvasGroup)), DefaultExecutionOrder(-50), DisallowMultipleComponent]
-    public sealed class MenuHandler : UIBehaviour, IMenuHandler
+    public class MenuHandler : UIBehaviour, IMenuHandler
     {
         [SerializeField] private MenuScreen initialScreen = default;
 

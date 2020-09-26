@@ -7,12 +7,12 @@ using System;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// The <b>Menu Dialogue</b> is a verbose popup that can be used to query the user 
+    /// The <see cref="MenuDialogue"/> is a verbose popup that can be used to query the user 
     /// and can be displayed with either one, two or three configurable buttons. The resulting 
-    /// <b>Promise</b> resolves with a <b>MenuDialogueResult</b> based on the button pressed.
+    /// <see cref="Promise"/> resolves with a <see cref="MenuDialogueResult"/> based on the button pressed.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Menu Dialogue")]
-    public sealed class MenuDialogue : MenuScreen, IMenuDialogue
+    public class MenuDialogue : MenuScreen, IMenuDialogue
     {
         [SerializeField] private TextMeshProUGUI titleText = default;
         [SerializeField] private TextMeshProUGUI bodyText = default;
@@ -23,8 +23,6 @@ namespace Vulpes.Menus
         [SerializeField] private Button confirmButton = default;
         [SerializeField] private Button cancelButton = default;
         [SerializeField] private Button alternateButton = default;
-
-        private IPromise promiseChain;
 
         /// <summary>
         /// Sets the text for the Dialogue and disables any buttons with no text.
@@ -44,8 +42,8 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Transitions in a Dialogue with one button and returns a Promise that resolves with the selected 
-        /// button result when the transition is complete (Note: Callbacks execute before the Promise resolves).
+        /// Transitions in a Dialogue with one button and returns a <see cref="Promise"/> that resolves with the selected 
+        /// button result when the transition is complete (Note: Callbacks execute before the <see cref="Promise"/> resolves).
         /// </summary>
         public IPromise<MenuDialogueResult> Show(string asTitleText, string asBodyText, string asConfirmText, Action akOnConfirm = null)
         {
@@ -62,8 +60,8 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Transitions in a Dialogue with three buttons and returns a Promise that resolves with the selected 
-        /// button result when the transition is complete (Note: Callbacks execute before the Promise resolves).
+        /// Transitions in a Dialogue with three buttons and returns a <see cref="Promise"/> that resolves with the selected 
+        /// button result when the transition is complete (Note: Callbacks execute before the <see cref="Promise"/> resolves).
         /// </summary>
         public IPromise<MenuDialogueResult> Show(string asTitleText, string asBodyText, string asConfirmText, string asCancelText, string asAlternateText, Action akOnConfirm = null, Action akOnCancel = null, Action akOnAlternate = null)
         {
@@ -71,7 +69,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Transitions in the Dialogue and returns a Promise that resolves when a button is pressed.
+        /// Transitions in the Dialogue and returns a <see cref="Promise"/> that resolves when a button is pressed.
         /// </summary>
         private IPromise<MenuDialogueResult> ShowInternal(string asTitleText, string asBodyText, string asConfirmText, string asCancelText, string asAlternateText, Action akOnConfirm = null, Action akOnCancel = null, Action akOnAlternate = null)
         {
@@ -117,7 +115,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Transitions out the Dialogue and returns a Promise that resolves when the transition is complete.
+        /// Transitions out the Dialogue and returns a <see cref="Promise"/> that resolves when the transition is complete.
         /// </summary>
         private IPromise HideInternal()
         {

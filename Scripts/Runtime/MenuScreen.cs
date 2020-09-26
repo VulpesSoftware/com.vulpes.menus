@@ -7,7 +7,7 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Base class for all <b>Menu Screens</b>, contains controls for Cursor Visibility state as well as the <b>Transition</b> type.
+    /// Base class for all <see cref="MenuScreen"/>, contains controls for Cursor Visibility state as well as the Transition type.
     /// </summary>
     [RequireComponent(typeof(CanvasGroup)), DisallowMultipleComponent]
     public abstract class MenuScreen : UIBehaviour, IMenuScreen
@@ -106,7 +106,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Initializes the Menu Screen.
+        /// Initializes the <see cref="MenuScreen"/>.
         /// </summary>
         public void Initialize(IMenuHandler akMenuHandler)
         {
@@ -121,7 +121,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Called when this Menu Screen is first initialized by the Menu Handler.
+        /// Called when this <see cref="MenuScreen"/> is first initialized by the <see cref="MenuHandler"/>.
         /// </summary>
         public virtual void OnInitialize()
         {
@@ -129,7 +129,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// This method executes every frame that this Menu Screen is the active.
+        /// This method executes every frame that this <see cref="MenuScreen"/> is the active.
         /// </summary>
         public virtual void OnActive()
         {
@@ -137,7 +137,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Called when this Menu Screen begins transitioning in.
+        /// Called when this <see cref="MenuScreen"/> begins transitioning in.
         /// </summary>
         public virtual void OnWillAppear()
         {
@@ -145,7 +145,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Called when this screen finishes transitioning in.
+        /// Called when this <see cref="MenuScreen"/> finishes transitioning in.
         /// </summary>
         public virtual void OnDidAppear()
         {
@@ -153,7 +153,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Called when this Menu Screen begins transitioning out.
+        /// Called when this <see cref="MenuScreen"/> begins transitioning out.
         /// </summary>
         public virtual void OnWillDisappear()
         {
@@ -161,7 +161,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Called on when this screen finishes transitioning out.
+        /// Called on when this <see cref="MenuScreen"/> finishes transitioning out.
         /// </summary>
         public virtual void OnDidDisappear()
         {
@@ -169,7 +169,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Returns a Promise that resolves when this Menu Screen finishes transitioning in.
+        /// Returns a <see cref="Promise"/> that resolves when this <see cref="MenuScreen"/> finishes transitioning in.
         /// </summary>
         public IPromise TransitionIn(bool abInstant = false)
         {
@@ -216,7 +216,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Returns a Promise that resolves when this Menu Screen finishes transitioning out.
+        /// Returns a <see cref="Promise"/> that resolves when this <see cref="MenuScreen"/> finishes transitioning out.
         /// </summary>
         public IPromise TransitionOut(bool abInstant = false)
         {
