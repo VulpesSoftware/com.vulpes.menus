@@ -2,11 +2,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Vulpes.Menus.Experimental
+namespace Vulpes.Menus
 {
     /// <summary>
-    /// Menu Widget Dropdown.
-    /// Note: This is an experimental feature use it at your own peril.
+    /// <see cref="MenuWidget"/> Dropdown.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Dropdown")]
     public sealed class MenuWidget_Dropdown : MenuWidget<int>

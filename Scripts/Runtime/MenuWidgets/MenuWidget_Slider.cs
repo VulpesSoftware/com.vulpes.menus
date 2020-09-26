@@ -3,11 +3,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-namespace Vulpes.Menus.Experimental
+namespace Vulpes.Menus
 {
     /// <summary>
-    /// Menu Widget Slider.
-    /// Note: This is an experimental feature use it at your own peril.
+    /// <see cref="MenuWidget"/> Slider.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Slider")]
     public sealed class MenuWidget_Slider : MenuWidget<int>

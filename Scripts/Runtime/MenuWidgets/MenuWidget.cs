@@ -3,11 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Vulpes.Menus.Experimental
+namespace Vulpes.Menus
 {
     /// <summary>
-    /// Base class for all Menu Widgets.
-    /// Note: This is an experimental feature use it at your own peril.
+    /// Base class for all <see cref="MenuWidget"/>.
     /// </summary>
     [DisallowMultipleComponent]
     public abstract class MenuWidget : Selectable, IPointerClickHandler, ISubmitHandler 

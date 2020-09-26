@@ -3,11 +3,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Vulpes.Menus.Experimental
+namespace Vulpes.Menus
 {
     /// <summary>
-    /// Menu Widget Button.
-    /// Note: This is an experimental feature use it at your own peril.
+    /// <see cref="MenuWidget"/> Button.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Button")]
     public sealed class MenuWidget_Button : MenuWidget

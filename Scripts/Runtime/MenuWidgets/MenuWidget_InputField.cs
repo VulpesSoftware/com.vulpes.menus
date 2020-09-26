@@ -2,11 +2,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Vulpes.Menus.Experimental
+namespace Vulpes.Menus
 {
     /// <summary>
-    /// Menu Widget Input Field.
-    /// Note: This is an experimental feature use it at your own peril.
+    /// <see cref="MenuWidget"/> Input Field.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Input Field")]
     public sealed class MenuWidget_InputField : MenuWidget<string>

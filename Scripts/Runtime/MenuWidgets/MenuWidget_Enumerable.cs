@@ -3,11 +3,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-namespace Vulpes.Menus.Experimental
+namespace Vulpes.Menus
 {
     /// <summary>
-    /// Menu Widget Enumerable.
-    /// Note: This is an experimental feature use it at your own peril.
+    /// <see cref="MenuWidget"/> Enumerable.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Enumerable")]
     public sealed class MenuWidget_Enumerable : MenuWidget<int>

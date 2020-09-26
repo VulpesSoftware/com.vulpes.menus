@@ -6,7 +6,7 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Base class for all <b>Menu Transitions<\b>.
+    /// Base class for all <see cref="MenuTransition"/>s.
     /// </summary>
     public abstract class MenuTransition : MonoBehaviour, IMenuTransition
     {
@@ -211,7 +211,7 @@ namespace Vulpes.Menus
         protected abstract void OnTransitionEnd();
 
         /// <summary>
-        /// Plays the transition in the specified direction and returns a Promise 
+        /// Plays the transition in the specified direction and returns a <see cref="Promise"/> 
         /// that will resolve once the transition is complete.
         /// </summary>
         public virtual IPromise Play(MenuTransitionMode akTransitionMode = MenuTransitionMode.Forward, bool abInstant = false, float? afDelay = null)
@@ -317,7 +317,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Completes the active transition immediately and resolves the pending Promise.
+        /// Completes the active transition immediately and resolves the pending <see cref="Promise"/>.
         /// </summary>
         public virtual void Complete()
         {
