@@ -4,6 +4,12 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.2-preview.1] - 2020-09-26
+### Changed
+- Added cref tags to method and class summaries.
+- Unsealed MenuHandler, MenuAlert, MenuDialogue, MenuLoading, and MenuLoadingTip classes.
+- Moved MenuWidgets out of the Experimental namespace.
+
 ## [0.3.1-preview.1] - 2020-09-20
 ### Changed
 - Made Start and End values of MenuTransition virtual so that they can be overridden.
