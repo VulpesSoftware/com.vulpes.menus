@@ -27,27 +27,27 @@ namespace Vulpes.Menus
         protected MenuTransition transition = default;
 
         /// <summary>
-        /// Called when the Menu Screen will appear (executed after the 'OnWillAppear' method for this screen).
+        /// Called when the <see cref="MenuScreen"/> will appear (executed after the <see cref="OnWillAppear"/> method for this screen).
         /// </summary>
         public event Action OnWillAppearEvent;
 
         /// <summary>
-        /// Called when the Menu Screen has finished appearing (executed after the 'OnDidAppear' method for this screen).
+        /// Called when the <see cref="MenuScreen"/> has finished appearing (executed after the <see cref="OnDidAppear"/> method for this screen).
         /// </summary>
         public event Action OnDidAppearEvent;
 
         /// <summary>
-        /// Called when the Menu Screen will disappear (executed after the 'OnWillDisappear' method for this screen).
+        /// Called when the <see cref="MenuScreen"/> will disappear (executed after the <see cref="OnWillDisappear"/> method for this screen).
         /// </summary>
         public event Action OnWillDisappearEvent;
 
         /// <summary>
-        /// Called when the Menu Screen has finished disappearing (executed after the 'OnDidDisappear' method for this screen).
+        /// Called when the <see cref="MenuScreen"/> has finished disappearing (executed after the <see cref="OnDidDisappear"/> method for this screen).
         /// </summary>
         public event Action OnDidDisappearEvent;
 
         /// <summary>
-        /// Called when the state of this Menu Screen changes.
+        /// Called when the state of this <see cref="MenuScreen"/> changes.
         /// </summary>
         public event Action<MenuScreenState, MenuScreenState> OnStateChangedEvent;
 

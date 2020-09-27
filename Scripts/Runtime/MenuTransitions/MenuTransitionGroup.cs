@@ -4,7 +4,7 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Triggers a series of Menu Transitions all at once.
+    /// Triggers a series of <see cref="MenuTransition"/>s all at once.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Group"), DefaultExecutionOrder(100)]
     public sealed class MenuTransitionGroup : MenuTransition

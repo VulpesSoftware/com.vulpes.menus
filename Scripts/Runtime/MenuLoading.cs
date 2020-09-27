@@ -74,7 +74,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Sets the progress value for the percentage text and progress slider if they are assigned.
+        /// Sets the progress value for the percentage <see cref="TextMeshProUGUI"/> and progress <see cref="Slider"/> if they are assigned.
         /// </summary>
         public void SetProgress(float progress)
         {
@@ -90,7 +90,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Sets the map name text if it is assigned.
+        /// Sets the map name <see cref="TextMeshProUGUI"/> if it is assigned.
         /// </summary>
         public void SetMapName(string mapName)
         {
@@ -101,7 +101,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Sets the various tip text and image fields if they are assigned. 
+        /// Sets the various tip <see cref="TextMeshProUGUI"/> and <see cref="RawImage"/> fields if they are assigned. 
         /// </summary>
         public void SetTip(string title, string subtitle, string body, Texture texture = null)
         {

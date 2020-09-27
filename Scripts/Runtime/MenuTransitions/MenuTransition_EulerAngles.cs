@@ -3,7 +3,7 @@
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Transitions the Euler Angles of a Transform from one orientation to another.
+    /// Transitions the euler angles of a <see cref="Transform"/> from one orientation to another.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Euler Angles")]
     public sealed class MenuTransition_EulerAngles : MenuTransition<Vector3>

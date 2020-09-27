@@ -3,7 +3,7 @@
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Transitions the Anchored Position of a Rect Transform from one position to another.
+    /// Transitions the Anchored Position of a <see cref="RectTransform"/> from one position to another.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Anchored Position")]
     public sealed class MenuTransition_AnchoredPosition : MenuTransition<Vector2>

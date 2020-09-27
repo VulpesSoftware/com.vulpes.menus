@@ -3,7 +3,7 @@
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Transitions the Position of a Transform from one position to another.
+    /// Transitions the position of a <see cref="Transform"/> from one position to another.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Position")]
     public sealed class MenuTransition_Position : MenuTransition<Vector3>

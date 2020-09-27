@@ -3,7 +3,7 @@
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Transitions nothing but the delay and duration values are still used in Group Transitions.
+    /// Transitions nothing but the delay and duration values are still used in <see cref="MenuTransitionGroup"/>s.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Null")]
     public sealed class MenuTransition_Null : MenuTransition

@@ -3,7 +3,7 @@
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Transitions the Size Delta of a Rect Transform from one value to another.
+    /// Transitions the size delta of a <see cref="RectTransform"/> from one value to another.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Size Delta")]
     public sealed class MenuTransition_SizeDelta : MenuTransition<Vector2>

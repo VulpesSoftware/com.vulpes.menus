@@ -3,7 +3,7 @@
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Transitions the Scale of a Transform from one scale to another.
+    /// Transitions the scale of a <see cref="Transform"/> from one scale to another.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Scale")]
     public sealed class MenuTransition_Scale : MenuTransition<Vector3>

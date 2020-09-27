@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Transitions the Color of a Graphic from one color to another using a Gradient.
+    /// Transitions the <see cref="Color"/> of a <see cref="Graphic"/> from one <see cref="Color"/> to another using a <see cref="Gradient"/>.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Graphic Color")]
     public sealed class MenuTransition_GraphicColor : MenuTransition

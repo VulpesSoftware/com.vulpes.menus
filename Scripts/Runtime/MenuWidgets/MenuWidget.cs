@@ -75,8 +75,7 @@ namespace Vulpes.Menus
     }
 
     /// <summary>
-    /// Base class for all Menu Widgets.
-    /// Note: This is an experimental feature use it at your own peril.
+    /// Base class for all <see cref="MenuWidget"/>s that control a value.
     /// </summary>
     [DisallowMultipleComponent]
     public abstract class MenuWidget<T> : MenuWidget 

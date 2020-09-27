@@ -211,8 +211,8 @@ namespace Vulpes.Menus
         protected abstract void OnTransitionEnd();
 
         /// <summary>
-        /// Plays the transition in the specified direction and returns a <see cref="Promise"/> 
-        /// that will resolve once the transition is complete.
+        /// Plays the <see cref="MenuTransition"/> in the specified direction and returns a <see cref="Promise"/> 
+        /// that will resolve once the <see cref="MenuTransition"/> is complete.
         /// </summary>
         public virtual IPromise Play(MenuTransitionMode akTransitionMode = MenuTransitionMode.Forward, bool abInstant = false, float? afDelay = null)
         {
@@ -317,7 +317,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Completes the active transition immediately and resolves the pending <see cref="Promise"/>.
+        /// Completes the active <see cref="MenuTransition"/> immediately and resolves the pending <see cref="Promise"/>.
         /// </summary>
         public virtual void Complete()
         {
@@ -333,7 +333,7 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Sets the current time of the transition.
+        /// Sets the current time of the <see cref="MenuTransition"/>.
         /// </summary>
         public void SetTime(float afTime, MenuTransitionMode akMode = MenuTransitionMode.Forward)
         {
@@ -347,7 +347,7 @@ namespace Vulpes.Menus
     }
 
     /// <summary>
-    /// Base class for all Menu Transitions.
+    /// Base class for all <see cref="MenuTransition"/>s that require a value.
     /// </summary>
     public abstract class MenuTransition<T> : MenuTransition where T : IEquatable<T>
     {

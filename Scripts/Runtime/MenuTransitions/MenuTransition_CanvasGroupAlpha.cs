@@ -3,7 +3,7 @@
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// Transitions the alpha of a Canvas Group from one value to another, 
+    /// Transitions the alpha of a <see cref="CanvasGroup"/> from one value to another, 
     /// automatically handling the interactable and blocks raycasts values.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Transitions/Transition Canvas Group Alpha")]
