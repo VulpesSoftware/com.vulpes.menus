@@ -4,6 +4,12 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.3-preview.1] - 2020-10-13
+### Changed
+- Fixed a bug where MenuScreens that didn't use a MenuTransition component couldn't be interacted with after transitioning in.
+- Resolved issue where changing Slider and Enumerable values wouldn't reselect the MenuWidget.
+- Updated Examples.
+
 ## [0.3.2-preview.2] - 2020-09-27
 ### Changed
 - Added more cref tags to method and class summaries.
