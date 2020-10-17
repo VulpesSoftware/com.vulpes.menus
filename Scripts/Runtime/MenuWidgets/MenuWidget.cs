@@ -102,6 +102,7 @@ namespace Vulpes.Menus
         protected virtual void OnValueChanged(T newValue)
         {
             OnValueChangedEvent?.Invoke(newValue);
+            Select();
         }
     }
 }
