@@ -210,6 +210,8 @@ namespace Vulpes.Menus
             } else
             {
                 // TBH: This is where the non-transitioned resume time logic was.
+                Interactable = true;
+                BlocksRaycasts = true;
                 result.Resolve();
             }
             return result;
@@ -245,8 +247,6 @@ namespace Vulpes.Menus
                 transition.Play(MenuTransitionMode.Reverse, abInstant).Done(() =>
                 {
                     gameObject.SetActive(false);
-                    Interactable = false;
-                    BlocksRaycasts = false;
                     OnStateChangedEvent?.Invoke(State, MenuScreenState.Out);
                     State = MenuScreenState.Out;
                     OnDidDisappear();
