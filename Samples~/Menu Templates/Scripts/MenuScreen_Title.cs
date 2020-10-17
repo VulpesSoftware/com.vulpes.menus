@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Vulpes.Menus;
 
 namespace Vulpes.Menus.Examples
 {
@@ -14,6 +11,7 @@ namespace Vulpes.Menus.Examples
         [SerializeField] private Button quitButton = default;
 
         // References to other screens that we can navigate to from this screen.
+        [SerializeField] private MenuScreen_Play playScreen = default;
         [SerializeField] private MenuScreen_Options optionsScreen = default;
 
         /// <summary>
@@ -44,13 +42,14 @@ namespace Vulpes.Menus.Examples
 
         private void OnPlayButtonPressed()
         {
-
+            // Push the play screen sequentially so that it transitions in after this screen transitions out.
+            MenuHandler.PushScreen(optionsScreen, MenuTransitionOptions.Sequential);
         }
 
         private void OnOptionsButtonPressed()
         {
-            // Push the options screen sequentially so that it transitions in after this screen transitions out.
-            MenuHandler.PushScreen(optionsScreen, MenuTransitionOptions.Sequential);
+            // Push the options screen parallel so that it transitions in while this screen transitions out.
+            MenuHandler.PushScreen(optionsScreen, MenuTransitionOptions.Parallel);
         }
 
         private void OnQuitButtonPressed()
