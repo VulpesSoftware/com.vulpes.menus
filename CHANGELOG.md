@@ -4,6 +4,10 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.4-preview.1] - 2020-11-08
+### Changed
+- Added ability to set the transitioned in 'interactable' and 'blocksRaycast' states for MenuTransition_CanvasGroupAlpha.
+
 ## [0.3.3-preview.1] - 2020-10-13
 ### Changed
 - Fixed a bug where MenuScreens that didn't use a MenuTransition component couldn't be interacted with after transitioning in.
