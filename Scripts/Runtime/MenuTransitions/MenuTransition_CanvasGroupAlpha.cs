@@ -10,6 +10,8 @@ namespace Vulpes.Menus
     public sealed class MenuTransition_CanvasGroupAlpha : MenuTransition<float>
     {
         [SerializeField] private CanvasGroup canvasGroup = default;
+        [SerializeField] private bool interactable = true;
+        [SerializeField] private bool blocksRaycasts = true;
 
         public override float Current
         {
@@ -31,14 +33,14 @@ namespace Vulpes.Menus
                 canvasGroup.interactable = false;
             } else
             {
-                canvasGroup.blocksRaycasts = true;
-                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = blocksRaycasts;
+                canvasGroup.interactable = interactable;
             }
         }
 
         protected override void OnTransitionStart()
         {
-            canvasGroup.blocksRaycasts = true;
+            canvasGroup.blocksRaycasts = blocksRaycasts;
             canvasGroup.interactable = false;
         }
 
@@ -49,8 +51,8 @@ namespace Vulpes.Menus
 
         protected override void OnTransitionEnd()
         {
-            canvasGroup.blocksRaycasts = transitionMode == MenuTransitionMode.Forward ? true : false;
-            canvasGroup.interactable = transitionMode == MenuTransitionMode.Forward ? true : false;
+            canvasGroup.blocksRaycasts = transitionMode == MenuTransitionMode.Forward ? blocksRaycasts : false;
+            canvasGroup.interactable = transitionMode == MenuTransitionMode.Forward ? interactable : false;
         }
     }
 }
