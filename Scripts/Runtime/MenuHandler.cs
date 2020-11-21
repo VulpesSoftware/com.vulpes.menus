@@ -102,6 +102,11 @@ namespace Vulpes.Menus
         public IMenuDialogue Dialogue { get; private set; }
 
         /// <summary>
+        /// Returns the Menu Tooltip if it exists.
+        /// </summary>
+        public IMenuTooltip Tooltip { get; private set; }
+
+        /// <summary>
         /// Called when a transition between two Menu Screens begins (Ordered: Out Screen, In Screen).
         /// </summary>
         public event Action<IMenuScreen, IMenuScreen> OnScreenStateWillChangeEvent;
@@ -125,6 +130,7 @@ namespace Vulpes.Menus
             ScreenStack = new Stack<IMenuScreen>();
             Dialogue = GetScreen<MenuDialogue>();
             Alert = GetComponentInChildren<MenuAlert>(true);
+            Tooltip = GetComponentInChildren<MenuTooltip>(true);
             if (initialScreen != null)
             {
                 PushScreen(initialScreen);
