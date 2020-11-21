@@ -4,22 +4,14 @@ using UnityEngine.EventSystems;
 namespace Vulpes.Menus
 {
     [AddComponentMenu("Vulpes/Menus/Menu Tooltip Details")]
-    public sealed class MenuTooltipDetails : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
+    public sealed class MenuTooltipDetails : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public string title;
+        [Multiline(4)]
         public string body;
-        public Transform defaultAnchorPoint;
 
         // HACK
         public MenuTooltip menuTooltip;
-
-        private void Awake()
-        {
-            if (defaultAnchorPoint == null)
-            {
-                defaultAnchorPoint = transform;
-            }
-        }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -27,20 +19,6 @@ namespace Vulpes.Menus
         }
 
         public void OnPointerExit(PointerEventData eventData)
-        {
-            if (EventSystem.current.currentSelectedGameObject == gameObject)
-            {
-                return;
-            }
-            menuTooltip.Hide();
-        }
-
-        public void OnSelect(BaseEventData eventData)
-        {
-            menuTooltip.Show(title, body);
-        }
-
-        public void OnDeselect(BaseEventData eventData)
         {
             menuTooltip.Hide();
         }

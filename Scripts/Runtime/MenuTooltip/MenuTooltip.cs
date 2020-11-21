@@ -41,7 +41,13 @@ namespace Vulpes.Menus
 
         public void SetPosition(Vector3 position)
         {
-            transform.position = position;
+            transform.position = position;        
+        }
+
+        private void LateUpdate()
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.root.GetComponent<RectTransform>(), Input.mousePosition, null, out Vector2 localPoint);
+            transform.localPosition = localPoint;
         }
     }
 }
