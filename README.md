@@ -4,7 +4,19 @@
 
 A Promise driven game menu framework for Unity.
 
-*NOTE:* This Package depends on '[com.vulpes.promises](https://github.com/VulpesSoftware/com.vulpes.promises.git#1.0.0)', due to current limitations of the Unity Package Manager you should install that package prior to installing this one to avoid errors.
+*NOTE:* This Package depends on '[com.vulpes.promises](https://github.com/VulpesSoftware/com.vulpes.promises.git#1.0.0)'.
+
+## Installing this pacakge
+
+As of version 0.3.4-preview.1 of this package, you are now able to install it, along with other Vulpes Sopfteware pacakges via the Unity Package Manager. 
+
+In Unity 2019 LTS and Unity 2020 onwards you can install the package through 'Project Settings/Package Manager'. Under 'Scoped Registries' click the little '+' button and input the following into the fields on the right.
+
+*Name:* Vulpes Software
+*URL:* https://registry.npmjs.org
+*Scope(s):* com.vulpes
+
+Click 'Apply', now you should be able to access the Vulpes Software registry under the 'My Registries' section in the Package Manager window using the second dropdown in the top left.
 
 ## Using this library
 
