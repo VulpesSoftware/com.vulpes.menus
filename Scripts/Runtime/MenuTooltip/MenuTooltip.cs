@@ -36,7 +36,9 @@ namespace Vulpes.Menus
         public void SetText(string title, string body)
         {
             titleText.text = title;
+            titleText.gameObject.SetActive(!string.IsNullOrEmpty(title));
             bodyText.text = body;
+            bodyText.gameObject.SetActive(!string.IsNullOrEmpty(body));
         }
 
         public void SetPosition(Vector3 position)
