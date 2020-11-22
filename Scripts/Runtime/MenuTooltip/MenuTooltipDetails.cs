@@ -10,8 +10,7 @@ namespace Vulpes.Menus
         [Multiline(4)]
         public string body;
 
-        // HACK
-        public MenuTooltip menuTooltip;
+        [SerializeField] private MenuTooltip menuTooltip;
 
         public void OnPointerEnter(PointerEventData eventData)
         {

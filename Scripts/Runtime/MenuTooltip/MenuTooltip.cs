@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
 using Vulpes.Promises;
 
@@ -11,8 +12,17 @@ namespace Vulpes.Menus
         [SerializeField] private TextMeshProUGUI titleText = default;
         [SerializeField] private TextMeshProUGUI bodyText = default;
         [SerializeField] private MenuTransition transition = default;
+        [SerializeField] private MenuTransition_RectTransformPivot pivotTransition = default;
 
         private CanvasGroup canvasGroup;
+
+        public bool IsActive
+        {
+            get
+            {
+                return gameObject.activeSelf;
+            }
+        }
 
         protected override void Awake()
         {
@@ -20,6 +30,12 @@ namespace Vulpes.Menus
             canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.blocksRaycasts = false;
             canvasGroup.interactable = false;
+            // Disable raycast target on image.
+            var image = GetComponent<Image>();
+            if (image != null)
+            {
+                image.raycastTarget = false;
+            }
         }
 
         public IPromise Show(string title, string body)
@@ -41,15 +57,25 @@ namespace Vulpes.Menus
             bodyText.gameObject.SetActive(!string.IsNullOrEmpty(body));
         }
 
-        public void SetPosition(Vector3 position)
+        public void SetPosition(Vector2 position)
         {
-            transform.position = position;        
+            transform.localPosition = position;
         }
 
-        private void LateUpdate()
+        public void PivotLeft()
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.root.GetComponent<RectTransform>(), Input.mousePosition, null, out Vector2 localPoint);
-            transform.localPosition = localPoint;
+            if (pivotTransition != null && pivotTransition.Mode != MenuTransitionMode.Reverse)
+            {
+                pivotTransition.Play(MenuTransitionMode.Reverse);
+            }
+        }
+
+        public void PivotRight()
+        {
+            if (pivotTransition != null && pivotTransition.Mode != MenuTransitionMode.Forward)
+            {
+                pivotTransition.Play(MenuTransitionMode.Forward);
+            }
         }
     }
 }

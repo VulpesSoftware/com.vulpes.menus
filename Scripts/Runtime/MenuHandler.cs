@@ -7,12 +7,22 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// The <b>Menu Handler<\b> is responsible for managing and transitioning <b>Menu Screens<\b>.
+    /// The <see cref="MenuHandler"/> is responsible for managing and transitioning <see cref="MenuHandler"/>.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Menu Handler"), RequireComponent(typeof(CanvasGroup)), DefaultExecutionOrder(-50), DisallowMultipleComponent]
     public class MenuHandler : UIBehaviour, IMenuHandler
     {
         [SerializeField] private MenuScreen initialScreen = default;
+
+        /// <summary>
+        /// Reference to the <see cref="RectTransform"/> component of the handler.
+        /// </summary>
+        public RectTransform RectTransform { get; private set; }
+
+        /// <summary>
+        /// Reference to the <see cref="Canvas"/> component of the handler.
+        /// </summary>
+        public Canvas Canvas { get; private set; }
 
         /// <summary>
         /// The event system used by this handler.
@@ -120,6 +130,8 @@ namespace Vulpes.Menus
         {
             base.Awake();
             ScreenStack = new Stack<IMenuScreen>();
+            RectTransform = GetComponent<RectTransform>();
+            Canvas = GetComponent<Canvas>();
             EventSystem = EventSystem.current;
             CanvasGroup = GetComponent<CanvasGroup>();
             Screens = GetComponentsInChildren<IMenuScreen>(true);
@@ -146,6 +158,22 @@ namespace Vulpes.Menus
             if (Alert != null)
             {
                 Alert.UpdateTimer(Time.unscaledDeltaTime);
+            }
+            if (Tooltip != null && Tooltip.IsActive)
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    RectTransform, 
+                    Input.mousePosition,
+                    Canvas.renderMode != RenderMode.ScreenSpaceOverlay ? Canvas.worldCamera : null, 
+                    out Vector2 localPoint);
+                if (localPoint.x > 0.0f)
+                {
+                    Tooltip.PivotRight();
+                } else
+                {
+                    Tooltip.PivotLeft();
+                }
+                Tooltip.SetPosition(localPoint);
             }
         }
 
