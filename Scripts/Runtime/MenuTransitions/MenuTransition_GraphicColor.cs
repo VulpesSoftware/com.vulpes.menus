@@ -33,9 +33,9 @@ namespace Vulpes.Menus
 
         }
 
-        protected override void OnTransitionUpdate(float afTime)
+        protected override void OnTransitionUpdate(in float time)
         {
-            targetGraphic.color = color.Evaluate(afTime);
+            targetGraphic.color = color.Evaluate(time);
         }
 
         protected override void OnTransitionEnd()

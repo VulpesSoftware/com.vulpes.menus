@@ -26,24 +26,24 @@ namespace Vulpes.Menus
 
         public override void Initialize() 
         { 
-            if (resetOnInitialize)
+            if (flags.HasFlag(MenuTransitionFlags.ResetOnInitialize))
             {
                 for (int i = 0; i < transitions.Length; i++)
                 {
-                    transitions[i].ResetOnInitialize = true;
+                    transitions[i].Flags |= MenuTransitionFlags.ResetOnInitialize;
                 }
             }
         }
 
         protected override void OnTransitionStart() { }
 
-        protected override void OnTransitionUpdate(float afTime) { }
+        protected override void OnTransitionUpdate(in float time) { }
 
         protected override void OnTransitionEnd() { }
 
         private void StartTransition()
         {
-            if (transitionMode == MenuTransitionMode.Forward)
+            if (Mode == MenuTransitionMode.Forward)
             {
                 gameObject.SetActive(true);
             }
@@ -52,25 +52,25 @@ namespace Vulpes.Menus
 
             int i;
 
-            if (instant)
+            if (Instant)
             {
                 for (i = 0; i < transitions.Length; i++)
                 {
-                    transitions[i].Play(transitionMode, instant);
+                    transitions[i].Play(Mode, Instant);
                 }
-                OnTransitionUpdate(transitionMode == MenuTransitionMode.Forward ? 1.0f : 0.0f);
+                OnTransitionUpdate(Mode == MenuTransitionMode.Forward ? 1.0f : 0.0f);
                 EndTransition();
                 return;
             }
 
             for (i = 0; i < transitions.Length; i++)
             {
-                if (transitionMode == MenuTransitionMode.Reverse)
+                if (Mode == MenuTransitionMode.Reverse)
                 {
-                    transitions[i].Play(transitionMode, instant, instant ? 0.0f : duration - transitions[i].TotalDuration);
+                    transitions[i].Play(Mode, Instant, Instant ? 0.0f : duration - transitions[i].TotalDuration);
                 } else
                 {
-                    transitions[i].Play(transitionMode, instant);
+                    transitions[i].Play(Mode, Instant);
                 }
             }
 
@@ -79,7 +79,7 @@ namespace Vulpes.Menus
                     (t) => OnTransitionUpdate(t),
                     duration,
                     Curve,
-                    transitionMode == MenuTransitionMode.Reverse,
+                    Mode == MenuTransitionMode.Reverse,
                     () =>
                     {
                         EndTransition();
@@ -89,18 +89,18 @@ namespace Vulpes.Menus
 
         private void EndTransition()
         {
-            isPlaying = false;
+            IsPlaying = false;
             OnTransitionEnd();
             transitionPromise.Resolve();
-            if (transitionMode == MenuTransitionMode.Reverse)
+            if (Mode == MenuTransitionMode.Reverse)
             {
                 gameObject.SetActive(false);
             }
         }
 
-        public override IPromise Play(MenuTransitionMode akTransitionMode = MenuTransitionMode.Forward, bool abInstant = false, float? afDelay = null)
+        public override IPromise Play(in MenuTransitionMode mode = MenuTransitionMode.Forward, in bool instant = false, in float? delayOverride = null)
         {
-            if (isPlaying)
+            if (IsPlaying)
             {
                 Complete();
             }
@@ -112,18 +112,14 @@ namespace Vulpes.Menus
             }
 
             transitionPromise = Promise.Create();
-            instant = abInstant;
-            transitionMode = akTransitionMode;
+            Instant = instant;
+            Mode = mode;
 
-            isPlaying = true;
+            IsPlaying = true;
 
-            if (!afDelay.HasValue)
+            if (delayOverride.GetValueOrDefault() > 0.0f || delay > 0.0f)
             {
-                afDelay = delay;
-            }
-            if (afDelay > 0.0f)
-            {
-                GetMenuTransitionAnchor().StartCoroutine(DelayedTransitionRoutine(afDelay.Value, StartTransition));
+                GetMenuTransitionAnchor().StartCoroutine(DelayedTransitionRoutine(delayOverride ?? delay, StartTransition));
             } else
             {
                 StartTransition();
@@ -134,13 +130,13 @@ namespace Vulpes.Menus
 
         public override void Complete()
         {
-            if (isPlaying)
+            if (IsPlaying)
             {
                 if (transitionRoutine != null)
                 {
                     GetMenuTransitionAnchor().StopCoroutine(transitionRoutine);
                 }
-                OnTransitionUpdate(transitionMode == MenuTransitionMode.Forward ? 1.0f : 0.0f);
+                OnTransitionUpdate(Mode == MenuTransitionMode.Forward ? 1.0f : 0.0f);
                 for (int i = 0; i < transitions.Length; i++)
                 {
                     transitions[i].Complete();

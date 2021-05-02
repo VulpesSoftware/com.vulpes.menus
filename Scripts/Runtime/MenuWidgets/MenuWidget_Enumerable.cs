@@ -38,11 +38,11 @@ namespace Vulpes.Menus
             }
         }
 
-        public void Initialize(string asHeader, int aiIndex, string[] asOptions)
+        public void Initialize(string header, int index, string[] options)
         {
-            headerText.text = asHeader;
-            value = aiIndex;
-            options = asOptions;
+            headerText.text = header;
+            value = index;
+            this.options = options;
         }
 
         protected override void Awake()

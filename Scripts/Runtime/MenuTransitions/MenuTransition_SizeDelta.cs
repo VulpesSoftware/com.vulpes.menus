@@ -31,9 +31,9 @@ namespace Vulpes.Menus
             
         }
 
-        protected override void OnTransitionUpdate(float afTime)
+        protected override void OnTransitionUpdate(in float time)
         {
-            rectTransform.sizeDelta = Vector2.LerpUnclamped(start, end, afTime);
+            rectTransform.sizeDelta = Vector2.LerpUnclamped(start, end, time);
         }
 
         protected override void OnTransitionEnd()

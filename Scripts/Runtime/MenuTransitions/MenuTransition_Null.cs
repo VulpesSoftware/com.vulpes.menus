@@ -12,7 +12,7 @@ namespace Vulpes.Menus
 
         protected override void OnTransitionStart() { }
 
-        protected override void OnTransitionUpdate(float afTime) { }
+        protected override void OnTransitionUpdate(in float time) { }
 
         protected override void OnTransitionEnd() { }
     }

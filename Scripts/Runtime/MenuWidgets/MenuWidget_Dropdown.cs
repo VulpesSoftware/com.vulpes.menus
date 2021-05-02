@@ -25,9 +25,9 @@ namespace Vulpes.Menus
             }
         }
 
-        public void Initialize(string asHeader)
+        public void Initialize(string header)
         {
-            headerText.text = asHeader;
+            headerText.text = header;
         }
 
         protected override void Awake()
