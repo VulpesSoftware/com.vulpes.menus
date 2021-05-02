@@ -3,16 +3,16 @@ using Vulpes.Promises;
 
 namespace Vulpes.Menus
 {
-    public enum MenuScreenState
+    public enum MenuScreenState : int
     {
         /// <summary>The screen is currently fully transitioned out.</summary>
-        Out = 0,
+        Out,
         /// <summary>The screen is currently transitioning in.</summary>
-        TransitioningIn = 1,
+        TransitioningIn,
         /// <summary>The screen is currently fully transitioned in.</summary>
-        In = 2,
+        In,
         /// <summary>The screen is currently transitioning out.</summary>
-        TransitioningOut = 3,
+        TransitioningOut,
     }
 
     public interface IMenuScreen 
@@ -27,11 +27,11 @@ namespace Vulpes.Menus
 
         event Action<MenuScreenState, MenuScreenState> OnStateChangedEvent;
 
-        IPromise TransitionIn(bool abInstant = false);
+        IPromise TransitionIn(bool instant = false);
 
-        IPromise TransitionOut(bool abInstant = false);
+        IPromise TransitionOut(bool instant = false);
 
-        void Initialize(IMenuHandler akMenuHandler);
+        void Initialize(IMenuHandler menuHandler);
 
         void OnWillAppear();
 
