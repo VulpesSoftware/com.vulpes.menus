@@ -1,8 +1,8 @@
 {
   "name": "com.vulpes.menus",
   "displayName": "Vulpes Menu Framework",
-  "version": "0.3.5-preview.1",
-  "unity": "2019.1",
+  "version": "0.4.0-preview.1",
+  "unity": "2019.3",
   "description": "A Promise driven game menu framework for Unity.",
   "keywords": [
     "vulpes",
@@ -25,5 +25,6 @@
       "description": "A collection of sample screens and widgets that demonstrate various menu framework implementations. You can use them as is, or as templates to build out your own screens and widgets.",
       "path": "Samples~/Menu Samples"
     }
-  ]
+  ],
+  "unityRelease": "10f1"
 }
