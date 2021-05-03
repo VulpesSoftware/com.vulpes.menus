@@ -6,7 +6,7 @@ A Promise driven game menu framework for Unity.
 
 *NOTE:* This Package depends on '[com.vulpes.promises](https://github.com/VulpesSoftware/com.vulpes.promises.git#1.0.0)'.
 
-## Installing this pacakge
+## Installing this package
 
 As of version 0.3.4-preview.1 of this package, you are now able to install it, along with other Vulpes Sopfteware pacakges via the Unity Package Manager. 
 
