@@ -146,7 +146,7 @@ namespace Vulpes.Menus
         /// Plays the <see cref="MenuTransition"/> in the specified direction and returns a <see cref="Promise"/> 
         /// that will resolve once the <see cref="MenuTransition"/> is complete.
         /// </summary>
-        public virtual IPromise Play(in MenuTransitionMode mode = MenuTransitionMode.Forward, in bool instant = false, in float? delayOverride = null)
+        public virtual IPromise Play(in MenuTransitionMode mode = MenuTransitionMode.Forward, in bool instant = false, float? delayOverride = null)
         {
             if (IsPlaying)
             {

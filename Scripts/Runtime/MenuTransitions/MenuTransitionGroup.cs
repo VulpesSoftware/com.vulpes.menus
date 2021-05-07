@@ -98,7 +98,7 @@ namespace Vulpes.Menus
             }
         }
 
-        public override IPromise Play(in MenuTransitionMode mode = MenuTransitionMode.Forward, in bool instant = false, in float? delayOverride = null)
+        public override IPromise Play(in MenuTransitionMode mode = MenuTransitionMode.Forward, in bool instant = false, float? delayOverride = null)
         {
             if (IsPlaying)
             {

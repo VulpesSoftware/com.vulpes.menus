@@ -26,7 +26,7 @@ namespace Vulpes.Menus
     {
         void Initialize();
 
-        IPromise Play(in MenuTransitionMode mode = MenuTransitionMode.Forward, in bool instant = false, in float? delayOverride = null);
+        IPromise Play(in MenuTransitionMode mode = MenuTransitionMode.Forward, in bool instant = false, float? delayOverride = null);
         
         void Complete();
         
