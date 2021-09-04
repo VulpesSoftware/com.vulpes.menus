@@ -8,7 +8,7 @@ A Promise driven game menu framework for Unity.
 
 ## Installing this package
 
-As of version 0.3.4-preview.1 of this package, you are now able to install it, along with other Vulpes Sopfteware pacakges via the Unity Package Manager. 
+As of version 0.3.4-preview.1 of this package, you are now able to install it, along with other Vulpes Software pacakges via the Unity Package Manager. 
 
 In Unity 2019 LTS and Unity 2020 onwards you can install the package through 'Project Settings/Package Manager'. Under 'Scoped Registries' click the little '+' button and input the following into the fields on the right.
 
