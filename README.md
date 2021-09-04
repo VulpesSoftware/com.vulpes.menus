@@ -6,9 +6,9 @@ A Promise driven game menu framework for Unity.
 
 *NOTE:* This Package depends on '[com.vulpes.promises](https://github.com/VulpesSoftware/com.vulpes.promises.git#1.0.0)'.
 
-## Installing this pacakge
+## Installing this package
 
-As of version 0.3.4-preview.1 of this package, you are now able to install it, along with other Vulpes Sopfteware pacakges via the Unity Package Manager. 
+As of version 0.3.4-preview.1 of this package, you are now able to install it, along with other Vulpes Software packages via the Unity Package Manager. 
 
 In Unity 2019 LTS and Unity 2020 onwards you can install the package through 'Project Settings/Package Manager'. Under 'Scoped Registries' click the little '+' button and input the following into the fields on the right.
 
@@ -28,4 +28,25 @@ To use this library efficiently you should first learn about Promises:
 
 ## Samples
 
-Samples will be added to this repository soon and will be installable via the Package Manager window in the Unity Editor.
+The current Samples included with this package are in an incomplete state and may not always be updated from version to version, a proper comprehensive collection of sample assets will be included in version 1.0.0 of this package whenever it is released.
+
+## Current Development Roadmap
+
+Several features and changes are currently under investigation and may or may not be added to the package in the future.
+
+*In Progress:*
+- Tooltip component for displaying a floating text box at the mouse position when hovering over certain objects (UX).
+  - Currently looking into adding conditional support for Unity's Input System package.
+  - Investigating ways of supporting tooltip popup when a Gamepad is in use.
+
+*Planned:*
+- Color Profile System for quick UI color changes at runtime (Accessibility).
+  - Assessing how to best support tints for buttons, toggles, sliders, etc.
+  - Assessing options for swapping entire sprites.
+- Genericising Menu Transition Components and spliting them into their own package that isn't dependent on the Menu Framework (Modularity).
+  - Vulpes Transitions package is currently in an internal preview state.
+  - Likely to be released along with Vulpes Menu Framework version 0.5.0-preview.1 or 0.6.0-preview.1 at the latest.
+
+ *Under Consideration*
+- Use of the Unity Jobs System or Threading / Tasks as an alternative to Promises (Performance).
+  - Currently in very early phase of investigation.

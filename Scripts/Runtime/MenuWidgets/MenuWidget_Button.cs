@@ -15,11 +15,11 @@ namespace Vulpes.Menus
 
         public event Action OnClickEvent = default;
 
-        public void Initialize(string asHeader, Action akOnClick)
+        public void Initialize(string header, Action onClick)
         {
-            headerText.text = asHeader;
-            OnClickEvent -= akOnClick;
-            OnClickEvent += akOnClick;
+            headerText.text = header;
+            OnClickEvent -= onClick;
+            OnClickEvent += onClick;
         }
 
         public override void OnMove(AxisEventData eventData)

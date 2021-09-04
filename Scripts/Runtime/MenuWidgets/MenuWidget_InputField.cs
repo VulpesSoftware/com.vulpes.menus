@@ -26,10 +26,10 @@ namespace Vulpes.Menus
             }
         }
 
-        public void Initialize(string asHeader, string asDefault)
+        public void Initialize(string header, string defaultInput)
         {
-            headerText.text = asHeader;
-            inputField.text = asDefault;
+            headerText.text = header;
+            inputField.text = defaultInput;
         }
 
         protected override void Awake()

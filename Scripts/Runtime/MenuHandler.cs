@@ -92,7 +92,7 @@ namespace Vulpes.Menus
         {
             get
             {
-                return (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible);
+                return Cursor.lockState == CursorLockMode.Locked && !Cursor.visible;
             }
             set
             {
@@ -102,27 +102,27 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Returns the Menu Alert if it exists.
+        /// Returns the <see cref="IMenuAlert"/> if it exists.
         /// </summary>
         public IMenuAlert Alert { get; private set; }
 
         /// <summary>
-        /// Returns the Dialogue Menu Screen if it exists.
+        /// Returns the <see cref="IMenuDialogue"/> if it exists.
         /// </summary>
         public IMenuDialogue Dialogue { get; private set; }
 
         /// <summary>
-        /// Returns the Menu Tooltip if it exists.
+        /// Returns the <see cref="IMenuTooltip"/> if it exists.
         /// </summary>
         public IMenuTooltip Tooltip { get; private set; }
 
         /// <summary>
-        /// Called when a transition between two Menu Screens begins (Ordered: Out Screen, In Screen).
+        /// Called when a transition between two <see cref="IMenuScreen"/>s begins (Ordered: Out Screen, In Screen).
         /// </summary>
         public event Action<IMenuScreen, IMenuScreen> OnScreenStateWillChangeEvent;
 
         /// <summary>
-        /// Called when a transition between two Menu Screens is completed (Ordered: Out Screen, In Screen).
+        /// Called when a transition between two <see cref="IMenuScreen"/>s is completed (Ordered: Out Screen, In Screen).
         /// </summary>
         public event Action<IMenuScreen, IMenuScreen> OnScreenStateDidChangeEvent;
 
@@ -178,109 +178,109 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Pushes a Menu Screen to the stack, transitioning it in and the old one out.
+        /// Pushes a <see cref="IMenuScreen"/> to the stack, transitioning it in and the old one out.
         /// </summary>
-        public IPromise PushScreen(IMenuScreen akMenuScreen, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel)
+        public IPromise PushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
             IMenuScreen outScreen = HasScreen ? CurrentScreen : null;
-            ScreenStack.Push(akMenuScreen);
-            return TransitionScreens(outScreen, akMenuScreen, akOptions);
+            ScreenStack.Push(menuScreen);
+            return TransitionScreens(outScreen, menuScreen, options);
         }
 
         /// <summary>
-        /// Pops the Menu Screen at the top of the stack off, transitioning it out and the next available one in.
+        /// Pops the <see cref="IMenuScreen"/> at the top of the stack off, transitioning it out and the next available one in.
         /// </summary>
-        public IPromise PopScreen(MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel)
+        public IPromise PopScreen(in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
             IMenuScreen outScreen = HasScreen ? ScreenStack.Pop() : null;
             IMenuScreen inScreen = HasScreen ? CurrentScreen : null;
-            return TransitionScreens(outScreen, inScreen, akOptions);
+            return TransitionScreens(outScreen, inScreen, options);
         }
 
         /// <summary>
-        /// Pops the Menu Screen at the top of the stack off, transitioning it out and the requested one in.
+        /// Pops the <see cref="IMenuScreen"/> at the top of the stack off, transitioning it out and the requested one in.
         /// </summary>
-        public IPromise PopPushScreen(IMenuScreen akMenuScreen, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel)
+        public IPromise PopPushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
             IMenuScreen outScreen = HasScreen ? ScreenStack.Pop() : null;
-            ScreenStack.Push(akMenuScreen);
-            return TransitionScreens(outScreen, akMenuScreen, akOptions);
+            ScreenStack.Push(menuScreen);
+            return TransitionScreens(outScreen, menuScreen, options);
         }
 
         /// <summary>
-        /// Pops to the requested Menu Screen in the stack.
+        /// Pops to the requested <see cref="IMenuScreen"/> in the stack.
         /// </summary>
-        private void PopToScreen(IMenuScreen akMenuScreen, IPromise akPromise, MenuTransitionOptions akOptions)
+        private void PopToScreen(IMenuScreen menuScreen, IPromise promise, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
-            if (CurrentScreen == akMenuScreen)
+            if (CurrentScreen == menuScreen)
             {
-                akPromise.Resolve();
+                promise.Resolve();
                 return;
             }
             IMenuScreen outScreen = CurrentScreen;
-            while (ScreenStack.Count > 0 && ScreenStack.Peek() != akMenuScreen)
+            while (ScreenStack.Count > 0 && ScreenStack.Peek() != menuScreen)
             {
                 ScreenStack.Pop();
             }
             IMenuScreen inScreen = ScreenStack.Peek();
-            TransitionScreens(outScreen, inScreen, akOptions).Catch(akPromise.Reject).Done(akPromise.Resolve);
+            TransitionScreens(outScreen, inScreen, options).Catch(promise.Reject).Done(promise.Resolve);
         }
 
         /// <summary>
-        /// Pops to the requested Menu Screen if it's present in the stack, returns a Promise 
-        /// that will resolve on completion, or reject if the Menu Screen is not in the stack.
+        /// Pops to the requested <see cref="IMenuScreen"/> if it's present in the stack, returns a <see cref="IPromise"/> 
+        /// that will resolve on completion, or reject if the <see cref="IMenuScreen"/> is not in the stack.
         /// </summary>
-        public IPromise PopToScreen(IMenuScreen akMenuScreen, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel)
+        public IPromise PopToScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
             IPromise promise = Promise.Create();
-            if (!ScreenStack.Contains(akMenuScreen))
+            if (!ScreenStack.Contains(menuScreen))
             {
-                promise.Reject(new InvalidOperationException(string.Format("The Menu Screen '{0}' is not in the current screen stack.", akMenuScreen)));
+                promise.Reject(new InvalidOperationException(string.Format("The Menu Screen '{0}' is not in the current screen stack.", menuScreen)));
                 return promise;
             }
-            PopToScreen(akMenuScreen, promise, akOptions);
+            PopToScreen(menuScreen, promise, options);
             return promise;
         }
 
         /// <summary>
-        /// Pops all Menu Screens off the stack, optionally pushing a new one in their place.
+        /// Pops all <see cref="IMenuScreen"/>s off the stack, optionally pushing a new one in their place.
         /// </summary>
-        public IPromise PopAllScreens(IMenuScreen akMenuScreen = null, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel)
+        public IPromise PopAllScreens(IMenuScreen menuScreen = null, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
             IMenuScreen outScreen = HasScreen ? ScreenStack.Pop() : null;
             ScreenStack.Clear();
-            if (akMenuScreen != null)
+            if (menuScreen != null)
             {
-                ScreenStack.Push(akMenuScreen);
+                ScreenStack.Push(menuScreen);
             }
-            return TransitionScreens(outScreen, akMenuScreen, akOptions);
+            return TransitionScreens(outScreen, menuScreen, options);
         }
 
         /// <summary>
-        /// Forces the stack into a new state containing only the requested Menu Screen.
+        /// Forces the stack into a new state containing only the requested <see cref="IMenuScreen"/>.
         /// </summary>
-        public IPromise SetScreenStack(IMenuScreen akMenuScreens, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel)
+        public IPromise SetScreenStack(IMenuScreen menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
-            return SetScreenStack(new IMenuScreen[] { akMenuScreens }, akOptions);
+            return SetScreenStack(new IMenuScreen[] { menuScreens }, options);
         }
 
         /// <summary>
-        /// Forces the stack into a new state containing the requested Menu Screens (the final Menu Screen in the array will be at the top of the stack).
+        /// Forces the stack into a new state containing the requested <see cref="MenuScreen"/>s (the final <see cref="MenuScreen"/> in the array will be at the top of the stack).
         /// </summary>
-        public IPromise SetScreenStack(IMenuScreen[] akMenuScreens, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel)
+        public IPromise SetScreenStack(IMenuScreen[] menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
             IMenuScreen outScreen = HasScreen ? ScreenStack.Pop() : null;
             ScreenStack.Clear();
-            for (int i = 0; i < akMenuScreens.Length; i++)
+            for (int i = 0; i < menuScreens.Length; i++)
             {
-                ScreenStack.Push(akMenuScreens[i]);
+                ScreenStack.Push(menuScreens[i]);
             }
-            IMenuScreen inScreen = akMenuScreens[akMenuScreens.Length - 1];
-            return TransitionScreens(outScreen, inScreen, akOptions);
+            IMenuScreen inScreen = menuScreens[menuScreens.Length - 1];
+            return TransitionScreens(outScreen, inScreen, options);
         }
 
         /// <summary>
-        /// Returns a reference to the Component of Type 'T' if any of the Menu Screens available to this Menu Handler are of Type 'T'.
+        /// Returns a reference to the Component of Type 'T' if any of the <see cref="IMenuScreen"/>s available to this <see cref="MenuHandler"/>s are of Type 'T'.
         /// </summary>
         public T GetScreen<T>() where T : IMenuScreen
         {
@@ -295,13 +295,13 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
-        /// Returns a Promise that resolves when both screens complete their transitions basing the sequence on the specified option.
+        /// Returns a <see cref="IPromise"/> that resolves when both screens complete their transitions basing the sequence on the specified option.
         /// </summary>
-        private IPromise TransitionScreens(IMenuScreen akOutScreen, IMenuScreen akInScreen, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel)
+        private IPromise TransitionScreens(IMenuScreen outScreen, IMenuScreen inScreen, MenuTransitionOptions options = MenuTransitionOptions.Parallel)
         {
-            if (akOutScreen != null && akInScreen != null)
+            if (outScreen != null && inScreen != null)
             {
-                if (akOutScreen.Equals(akInScreen))
+                if (outScreen.Equals(inScreen))
                 {
                     return Promise.Resolved();
                 }
@@ -309,35 +309,35 @@ namespace Vulpes.Menus
 
             IPromise promise = Promise.Create();
 
-            OnScreenStateWillChangeEvent?.Invoke(akOutScreen, akInScreen);
+            OnScreenStateWillChangeEvent?.Invoke(outScreen, inScreen);
             void Resolve()
             {
-                OnScreenStateDidChangeEvent?.Invoke(akOutScreen, akInScreen);
+                OnScreenStateDidChangeEvent?.Invoke(outScreen, inScreen);
                 promise.Resolve();
             }
 
-            if (akInScreen == null)
+            if (inScreen == null)
             {
-                if (akOutScreen == null)
+                if (outScreen == null)
                 {
                     Resolve();
                     return promise;
                 }
-                akOutScreen.TransitionOut(akOptions.HasFlag(MenuTransitionOptions.OutInstant)).Done(Resolve);
+                outScreen.TransitionOut(options.HasFlag(MenuTransitionOptions.OutInstant)).Done(Resolve);
                 return promise;
             }
 
-            if (akOutScreen == null)
+            if (outScreen == null)
             {
-                akInScreen.TransitionIn(akOptions.HasFlag(MenuTransitionOptions.InInstant)).Done(Resolve);
+                inScreen.TransitionIn(options.HasFlag(MenuTransitionOptions.InInstant)).Done(Resolve);
                 return promise;
             }
 
-            if (akOptions.HasFlag(MenuTransitionOptions.Sequential))
+            if (options.HasFlag(MenuTransitionOptions.Sequential))
             {
-                akOutScreen.TransitionOut(akOptions.HasFlag(MenuTransitionOptions.OutInstant)).Done(() =>
+                outScreen.TransitionOut(options.HasFlag(MenuTransitionOptions.OutInstant)).Done(() =>
                 {
-                    akInScreen.TransitionIn(akOptions.HasFlag(MenuTransitionOptions.InInstant)).Done(Resolve);
+                    inScreen.TransitionIn(options.HasFlag(MenuTransitionOptions.InInstant)).Done(Resolve);
                 });
                 return promise;
             }
@@ -351,8 +351,8 @@ namespace Vulpes.Menus
                     Resolve();
                 }
             }
-            akOutScreen.TransitionOut(akOptions.HasFlag(MenuTransitionOptions.OutInstant)).Done(TryResolve);
-            akInScreen.TransitionIn(akOptions.HasFlag(MenuTransitionOptions.InInstant)).Done(TryResolve);
+            outScreen.TransitionOut(options.HasFlag(MenuTransitionOptions.OutInstant)).Done(TryResolve);
+            inScreen.TransitionIn(options.HasFlag(MenuTransitionOptions.InInstant)).Done(TryResolve);
 
             return promise;
         }

@@ -24,13 +24,13 @@ namespace Vulpes.Menus
         [SerializeField] private Slider slider = default;
         [SerializeField] private TMP_InputField inputField = default;
 
-        public void Initialize(string asHeader, int aiValue, int aiMinValue, int aiMaxValue, int aiStepValue)
+        public void Initialize(string header, int value, int minValue, int maxValue, int stepValue)
         {
-            headerText.text = asHeader;
-            value = aiValue;
-            minValue = aiMinValue;
-            maxValue = aiMaxValue;
-            stepValue = aiStepValue;
+            headerText.text = header;
+            base.value = value;
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+            this.stepValue = stepValue;
         }
 
         protected override void Awake()
@@ -86,23 +86,23 @@ namespace Vulpes.Menus
             Value = Mathf.Min(maxValue, Value + stepValue);
         }
 
-        private void OnInputFieldEndEdit(string asText)
+        private void OnInputFieldEndEdit(string text)
         {
-            if (int.TryParse(asText, out int newValue))
+            if (int.TryParse(text, out int newValue))
             {
                 newValue = Mathf.Clamp(newValue, minValue, maxValue);
                 Value = newValue;
             }
         }
 
-        private void OnInputFieldSubmit(string asText)
+        private void OnInputFieldSubmit(string text)
         {
             Select();
         }
 
-        private void OnSliderValueChanged(float afValue)
+        private void OnSliderValueChanged(float value)
         {
-            Value = Mathf.Clamp((int)afValue, minValue, maxValue);
+            Value = Mathf.Clamp((int)value, minValue, maxValue);
         }
 
         public override void OnSubmit(BaseEventData eventData)

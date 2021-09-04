@@ -27,7 +27,7 @@ namespace Vulpes.Menus
             {
                 canvasGroup = GetComponent<CanvasGroup>();
             }
-            if (resetOnInitialize)
+            if (flags.HasFlag(MenuTransitionFlags.ResetOnInitialize))
             {
                 canvasGroup.blocksRaycasts = false;
                 canvasGroup.interactable = false;
@@ -44,15 +44,15 @@ namespace Vulpes.Menus
             canvasGroup.interactable = false;
         }
 
-        protected override void OnTransitionUpdate(float afTime)
+        protected override void OnTransitionUpdate(in float time)
         {
-            canvasGroup.alpha = Mathf.LerpUnclamped(start, end, afTime);
+            canvasGroup.alpha = Mathf.LerpUnclamped(start, end, time);
         }
 
         protected override void OnTransitionEnd()
         {
-            canvasGroup.blocksRaycasts = transitionMode == MenuTransitionMode.Forward ? blocksRaycasts : false;
-            canvasGroup.interactable = transitionMode == MenuTransitionMode.Forward ? interactable : false;
+            canvasGroup.blocksRaycasts = Mode == MenuTransitionMode.Forward && blocksRaycasts;
+            canvasGroup.interactable = Mode == MenuTransitionMode.Forward && interactable;
         }
     }
 }

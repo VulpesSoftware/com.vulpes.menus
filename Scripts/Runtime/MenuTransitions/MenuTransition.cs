@@ -40,161 +40,93 @@ namespace Vulpes.Menus
 
         [SerializeField, Min(0.0f)] protected float duration = 1.0f;
         [SerializeField, Min(0.0f)] protected float delay = 0.0f;
-        [SerializeField] protected AnimationCurve forwardCurve = new AnimationCurve(new Keyframe(0.0f, 0.0f), new Keyframe(1.0f, 1.0f));
-        [SerializeField] protected AnimationCurve reverseCurve = new AnimationCurve(new Keyframe(0.0f, 0.0f), new Keyframe(1.0f, 1.0f));
-        [SerializeField, Tooltip("Reset the transition to the begining at startup?")] protected bool resetOnInitialize = true;
-        [SerializeField, Tooltip("Reset the transition before playing?")] protected bool resetOnPlay = true;
-        [SerializeField, Tooltip("Disable the GameObject when transitioned out (good for performance)?")] protected bool disableWhenDone = true;
+        [SerializeField] protected AnimationCurve forwardCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+        [SerializeField] protected AnimationCurve reverseCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+        [SerializeField] protected MenuTransitionFlags flags = MenuTransitionFlags.Everything;
 
-        protected MenuTransitionMode transitionMode;
         protected Coroutine transitionRoutine;
         protected IPromise transitionPromise;
-        protected float currentTime;
-        protected bool isPlaying;
-        protected bool instant;
 
-        public MenuTransitionMode Mode
-        {
-            get
-            {
-                return transitionMode;
-            }
-        }
+        public float CurrentTime { get; protected set; }
 
-        protected AnimationCurve Curve
-        {
-            get
-            {
-                return transitionMode == MenuTransitionMode.Forward ? forwardCurve : reverseCurve;
-            }
-        }
+        public bool Instant { get; protected set; }
 
-        public bool IsPlaying
-        {
-            get
-            {
-                return isPlaying;
-            }
-        }
+        public MenuTransitionMode Mode { get; protected set; }
 
-        public float CurrentTime
-        {
-            get
-            {
-                return currentTime;
-            }
-        }
+        public AnimationCurve Curve => Mode == MenuTransitionMode.Forward ? forwardCurve : reverseCurve;
+
+        public bool IsPlaying { get; protected set; }
 
         public virtual float Duration
         {
-            get
-            {
-                return duration;
-            }
-            set
-            {
-                duration = value;
-            }
+            get => duration;
+            set => duration = value;
         }
 
         public float Delay
         {
-            get
-            {
-                return delay;
-            }
-            set
-            {
-                delay = value;
-            }
+            get => delay;
+            set => delay = value;
         }
 
-        public float TotalDuration
+        public float TotalDuration => Delay + Duration;
+
+        public MenuTransitionFlags Flags
         {
-            get
-            {
-                return Delay + Duration;
-            }
+            get => flags;
+            set => flags = value;
         }
 
-        public bool ResetOnInitialize
-        {
-            get
-            {
-                return resetOnInitialize;
-            }
-            set
-            {
-                resetOnInitialize = value;
-            }
-        }
-
-        public bool ResetOnPlay
-        {
-            get
-            {
-                return resetOnPlay;
-            }
-        }
-
-        public bool DisableWhenDone
-        {
-            get
-            {
-                return disableWhenDone;
-            }
-        }
-
-        protected IEnumerator TransitionRoutine(Action<float> akAction, float afDuration, AnimationCurve akCurve, bool abReversed, Action akOnComplete = null)
+        protected IEnumerator TransitionRoutine(Action<float> action, float duration, AnimationCurve curve, bool reversed, Action onComplete = null)
         {
             float elapsed = 0.0f;
 
-            while (elapsed < afDuration)
+            while (elapsed < duration)
             {
-                float t = elapsed / afDuration;
-                akAction(akCurve.Evaluate(abReversed ? 1.0f - t : t));
+                float t = elapsed / duration;
+                action(curve.Evaluate(reversed ? 1.0f - t : t));
                 elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
 
-            akAction(akCurve.Evaluate(abReversed ? 0.0f : 1.0f));
+            action(curve.Evaluate(reversed ? 0.0f : 1.0f));
 
-            akOnComplete?.Invoke();
+            onComplete?.Invoke();
         }
 
-        protected IEnumerator TransitionRoutine(Action<float> akAction, float afDuration, float afElapsed, AnimationCurve akCurve, bool abReversed, Action akOnComplete = null)
+        protected IEnumerator TransitionRoutine(Action<float> action, float duration, float elapsed, AnimationCurve curve, bool reversed, Action onComplete = null)
         {
-            if (abReversed)
+            if (reversed)
             {
-                afElapsed = 1.0f - afElapsed;
+                elapsed = 1.0f - elapsed;
             }
             
-            while (afElapsed < afDuration)
+            while (elapsed < duration)
             {
-                float t = afElapsed / afDuration;
-                akAction(akCurve.Evaluate(abReversed ? 1.0f - t : t));
-                afElapsed += Time.unscaledDeltaTime;
+                float t = elapsed / duration;
+                action(curve.Evaluate(reversed ? 1.0f - t : t));
+                elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             
-            akAction(akCurve.Evaluate(abReversed ? 0.0f : 1.0f));
+            action(curve.Evaluate(reversed ? 0.0f : 1.0f));
 
-            akOnComplete?.Invoke();
+            onComplete?.Invoke();
         }
 
         protected void Awake()
         {
             Initialize();
-            if (resetOnInitialize)
+            if (flags.HasFlag(MenuTransitionFlags.ResetOnInitialize))
             {
                 OnTransitionUpdate(0.0f);
-                if (disableWhenDone)
+                if (flags.HasFlag(MenuTransitionFlags.DisableWhenDone))
                 {
                     gameObject.SetActive(false);
                 }
             } else
             {
-                if (disableWhenDone)
+                if (flags.HasFlag(MenuTransitionFlags.DisableWhenDone))
                 {
                     gameObject.SetActive(true);
                 }
@@ -206,7 +138,7 @@ namespace Vulpes.Menus
 
         protected abstract void OnTransitionStart();
 
-        protected abstract void OnTransitionUpdate(float afTime);
+        protected abstract void OnTransitionUpdate(in float time);
 
         protected abstract void OnTransitionEnd();
 
@@ -214,11 +146,11 @@ namespace Vulpes.Menus
         /// Plays the <see cref="MenuTransition"/> in the specified direction and returns a <see cref="Promise"/> 
         /// that will resolve once the <see cref="MenuTransition"/> is complete.
         /// </summary>
-        public virtual IPromise Play(MenuTransitionMode akTransitionMode = MenuTransitionMode.Forward, bool abInstant = false, float? afDelay = null)
+        public virtual IPromise Play(in MenuTransitionMode mode = MenuTransitionMode.Forward, in bool instant = false, float? delayOverride = null)
         {
-            if (isPlaying)
+            if (IsPlaying)
             {
-                if (transitionMode == akTransitionMode)
+                if (Mode == mode)
                 {
                     if (transitionPromise == null)
                     {
@@ -228,28 +160,24 @@ namespace Vulpes.Menus
                         return transitionPromise;
                     }
                 }
-                float t = currentTime;
+                float t = CurrentTime;
                 Complete();
-                currentTime = t;
+                CurrentTime = t;
             }
 
-            isPlaying = true;
+            IsPlaying = true;
 
             transitionPromise = Promise.Create();
-            instant = abInstant;
-            transitionMode = akTransitionMode;
+            Instant = instant;
+            Mode = mode;
 
-            if (!afDelay.HasValue)
+            if ((delayOverride.GetValueOrDefault() > 0.0f || delay > 0.0f) && !instant)
             {
-                afDelay = delay;
-            }
-            if (afDelay > 0.0f && !abInstant)
-            {
-                if (resetOnPlay)
+                if (flags.HasFlag(MenuTransitionFlags.ResetOnPlay))
                 {
-                    OnTransitionUpdate(transitionMode == MenuTransitionMode.Forward ? 0.0f : 1.0f);
+                    OnTransitionUpdate(Mode == MenuTransitionMode.Forward ? 0.0f : 1.0f);
                 }
-                transitionRoutine = GetMenuTransitionAnchor().StartCoroutine(DelayedTransitionRoutine(afDelay.Value, StartTransition));
+                transitionRoutine = GetMenuTransitionAnchor().StartCoroutine(DelayedTransitionRoutine(delayOverride ?? delay, StartTransition));
             } else
             {
                 StartTransition();
@@ -258,32 +186,32 @@ namespace Vulpes.Menus
             return transitionPromise;
         }
 
-        protected IEnumerator DelayedTransitionRoutine(float afDelay, Action akOnComplete)
+        protected IEnumerator DelayedTransitionRoutine(float delay, Action onComplete)
         {
-            if (afDelay > 0.0f)
+            if (delay > 0.0f)
             {
-                yield return new WaitForSecondsRealtime(afDelay);
+                yield return new WaitForSecondsRealtime(delay);
             }
-            akOnComplete?.Invoke();
+            onComplete?.Invoke();
         }
 
         private void StartTransition()
         {
-            if (disableWhenDone && transitionMode == MenuTransitionMode.Forward)
+            if (flags.HasFlag(MenuTransitionFlags.DisableWhenDone) && Mode == MenuTransitionMode.Forward)
             {
                 gameObject.SetActive(true);
             }
 
-            if (resetOnPlay)
+            if (flags.HasFlag(MenuTransitionFlags.ResetOnPlay))
             {
-                currentTime = transitionMode == MenuTransitionMode.Forward ? 0.0f : 1.0f;
+                CurrentTime = Mode == MenuTransitionMode.Forward ? 0.0f : 1.0f;
             }
 
             OnTransitionStart();
 
-            if (instant)
+            if (Instant)
             {
-                OnTransitionUpdate(transitionMode == MenuTransitionMode.Forward ? 1.0f : 0.0f);
+                OnTransitionUpdate(Mode == MenuTransitionMode.Forward ? 1.0f : 0.0f);
                 EndTransition();
                 return;
             }
@@ -292,25 +220,25 @@ namespace Vulpes.Menus
                 TransitionRoutine(
                     (t) =>
                     {
-                        currentTime = t;
+                        CurrentTime = t;
                         OnTransitionUpdate(t);
                     },
                     duration,
-                    currentTime, 
+                    CurrentTime, 
                     Curve,
-                    transitionMode == MenuTransitionMode.Reverse,
+                    Mode == MenuTransitionMode.Reverse,
                     EndTransition
                 ));
         }
 
         private void EndTransition()
         {
-            isPlaying = false;
-            currentTime = transitionMode == MenuTransitionMode.Forward ? 1.0f : 0.0f;
+            IsPlaying = false;
+            CurrentTime = Mode == MenuTransitionMode.Forward ? 1.0f : 0.0f;
             OnTransitionEnd();
             transitionPromise.Resolve();
 
-            if (disableWhenDone && transitionMode == MenuTransitionMode.Reverse)
+            if (flags.HasFlag(MenuTransitionFlags.DisableWhenDone) && Mode == MenuTransitionMode.Reverse)
             {
                 gameObject.SetActive(false);
             }
@@ -321,13 +249,13 @@ namespace Vulpes.Menus
         /// </summary>
         public virtual void Complete()
         {
-            if (isPlaying)
+            if (IsPlaying)
             {
                 if (transitionRoutine != null)
                 {
                     GetMenuTransitionAnchor().StopCoroutine(transitionRoutine);
                 }
-                OnTransitionUpdate(transitionMode == MenuTransitionMode.Forward ? 1.0f : 0.0f);
+                OnTransitionUpdate(Mode == MenuTransitionMode.Forward ? 1.0f : 0.0f);
                 EndTransition();
             }
         }
@@ -335,14 +263,10 @@ namespace Vulpes.Menus
         /// <summary>
         /// Sets the current time of the <see cref="MenuTransition"/>.
         /// </summary>
-        public void SetTime(float afTime, MenuTransitionMode akMode = MenuTransitionMode.Forward)
+        public void SetTime(in float time, in MenuTransitionMode mode = MenuTransitionMode.Forward)
         {
-            if (akMode == MenuTransitionMode.Reverse)
-            {
-                afTime = 1.0f - afTime;
-            }
-            currentTime = afTime;
-            OnTransitionUpdate(afTime);
+            CurrentTime = mode == MenuTransitionMode.Reverse ? 1.0f - time : time;
+            OnTransitionUpdate(time);
         }
     }
 
@@ -356,26 +280,14 @@ namespace Vulpes.Menus
 
         public virtual T Start
         {
-            get
-            {
-                return start;
-            }
-            set
-            {
-                start = value;
-            }
+            get => start;
+            set => start = value;
         }
 
         public virtual T End
         {
-            get
-            {
-                return end;
-            }
-            set
-            {
-                end = value;
-            }
+            get => end;
+            set => end = value;
         }
 
         public abstract T Current { get; }

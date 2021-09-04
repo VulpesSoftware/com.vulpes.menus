@@ -7,7 +7,7 @@ namespace Vulpes.Menus
     {
         public string title;
         public string subtitle;
-        public string body;
+        [TextArea(minLines: 4, maxLines: 16)] public string body;
         public Texture texture;
     }
 }

@@ -23,48 +23,48 @@ namespace Vulpes.Menus
         /// <summary>
         /// Updates the <see cref="PromiseTimer"/> and creates it if it doesn't exist.
         /// </summary>
-        /// <param name="afDeltaTime">Current deltaTime used for incrementing the timer.</param>
-        public void UpdateTimer(float afDeltaTime)
+        /// <param name="deltaTime">Current deltaTime used for incrementing the timer.</param>
+        public void UpdateTimer(in float deltaTime)
         {
             if (promiseTimer == null)
             {
                 promiseTimer = new PromiseTimer();
             } else
             {
-                promiseTimer.Update(afDeltaTime);
+                promiseTimer.Update(deltaTime);
             }
         }
 
         /// <summary>
         /// Sets the message and icon for the Alert.
         /// </summary>
-        private void SetMessageAndIcon(string asMessage, Sprite akIcon)
+        private void SetMessageAndIcon(string message, Sprite icon)
         {
-            alertText.text = asMessage;
-            iconImage.sprite = akIcon;
-            iconImage.gameObject.SetActive(akIcon != null);
+            alertText.text = message;
+            iconImage.sprite = icon;
+            iconImage.gameObject.SetActive(icon != null);
         }
 
         /// <summary>
         /// Shows an Alert with the specified message and icon and returns 
         /// a <see cref="Promise"/> that resolves automatically after the specified duration.
         /// </summary>
-        public IPromise Show(string asMessage, Sprite akIcon, float afDuration)
+        public IPromise Show(string message, Sprite icon, float duration)
         {
             IPromise promise = Promise.Create();
             if (promiseChain == null)
             {
-                SetMessageAndIcon(asMessage, akIcon);
+                SetMessageAndIcon(message, icon);
                 promiseChain = transition.Play(MenuTransitionMode.Forward)
-                    .Then(() => promiseTimer.WaitFor(afDuration))
+                    .Then(() => promiseTimer.WaitFor(duration))
                     .Then(() => transition.Play(MenuTransitionMode.Reverse))
                     .Then(() => promise.Resolve());
             } else
             {
                 promiseChain = promiseChain
-                    .Then(() => SetMessageAndIcon(asMessage, akIcon))
+                    .Then(() => SetMessageAndIcon(message, icon))
                     .Then(() => transition.Play(MenuTransitionMode.Forward))
-                    .Then(() => promiseTimer.WaitFor(afDuration))
+                    .Then(() => promiseTimer.WaitFor(duration))
                     .Then(() => transition.Play(MenuTransitionMode.Reverse))
                     .Then(() => promise.Resolve());
             }
@@ -75,23 +75,23 @@ namespace Vulpes.Menus
         /// Shows an Alert with the specified message and icon and returns 
         /// a Promise that resolves one second after the provided <see cref="Promise"/> resolves.
         /// </summary>
-        public IPromise Show(string asMessage, Sprite akIcon, IPromise akPromise)
+        public IPromise Show(string message, Sprite icon, IPromise onResolved)
         {
             IPromise promise = Promise.Create();
             if (promiseChain == null)
             {
-                SetMessageAndIcon(asMessage, akIcon);
+                SetMessageAndIcon(message, icon);
                 promiseChain = transition.Play(MenuTransitionMode.Forward)
-                    .Then(() => akPromise)
+                    .Then(() => onResolved)
                     .Then(() => promiseTimer.WaitFor(1.0f))
                     .Then(() => transition.Play(MenuTransitionMode.Reverse))
                     .Then(() => promise.Resolve());
             } else
             {
                 promiseChain = promiseChain
-                    .Then(() => SetMessageAndIcon(asMessage, akIcon))
+                    .Then(() => SetMessageAndIcon(message, icon))
                     .Then(() => transition.Play(MenuTransitionMode.Forward))
-                    .Then(() => akPromise)
+                    .Then(() => onResolved)
                     .Then(() => promiseTimer.WaitFor(1.0f))
                     .Then(() => transition.Play(MenuTransitionMode.Reverse))
                     .Then(() => promise.Resolve());

@@ -7,18 +7,18 @@ using Vulpes.Promises;
 namespace Vulpes.Menus
 {
     [Flags]
-    public enum MenuTransitionOptions
+    public enum MenuTransitionOptions : int
     {
         /// <summary>Transitions both screens at the same time.</summary>
-        Parallel = (1 << 0),
+        Parallel = 1 << 0,
         /// <summary>Transitions the current screen out, then the new one in.</summary>
-        Sequential = (1 << 1),
+        Sequential = 1 << 1,
         /// <summary>Transitions in the new screen instantly.</summary>
-        InInstant = (1 << 2),
+        InInstant = 1 << 2,
         /// <summary>Transitions out the current screen instantly.</summary>
-        OutInstant = (1 << 3),
+        OutInstant = 1 << 3,
         /// <summary>Transitions both screens instantly.</summary>
-        BothInstant = (InInstant | OutInstant),
+        BothInstant = InInstant | OutInstant,
     }
 
     public interface IMenuHandler 
@@ -45,19 +45,19 @@ namespace Vulpes.Menus
 
         IMenuDialogue Dialogue { get; }
 
-        IPromise PushScreen(IMenuScreen akMenuScreen, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel);
+        IPromise PushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise PopScreen(MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel);
+        IPromise PopScreen(in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise PopPushScreen(IMenuScreen akMenuScreen, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel);
+        IPromise PopPushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise PopToScreen(IMenuScreen akMenuScreen, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel);
+        IPromise PopToScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise PopAllScreens(IMenuScreen akMenuScreen = null, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel);
+        IPromise PopAllScreens(IMenuScreen menuScreen = null, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise SetScreenStack(IMenuScreen akMenuScreens, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel);
+        IPromise SetScreenStack(IMenuScreen menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise SetScreenStack(IMenuScreen[] akMenuScreens, MenuTransitionOptions akOptions = MenuTransitionOptions.Parallel);
+        IPromise SetScreenStack(IMenuScreen[] menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
         T GetScreen<T>() where T : IMenuScreen;
     }

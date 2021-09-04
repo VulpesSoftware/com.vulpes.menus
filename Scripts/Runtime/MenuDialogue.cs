@@ -27,51 +27,51 @@ namespace Vulpes.Menus
         /// <summary>
         /// Sets the <see cref="TextMeshProUGUI"/> for the <see cref="MenuDialogue"/> and disables any <see cref="Button"/>s with no text string.
         /// </summary>
-        private void SetText(string asTitleText, string asBodyText, string asConfirmText, string asCancelText, string asAlternateText)
+        private void SetText(in string title, in string body, in string confirm, in string cancel, in string alternate)
         {
-            titleText.text = asTitleText;
-            titleText.gameObject.SetActive(!string.IsNullOrEmpty(asTitleText));
-            bodyText.text = asBodyText;
-            bodyText.gameObject.SetActive(!string.IsNullOrEmpty(asBodyText));
-            confirmText.text = asConfirmText;
-            confirmButton.gameObject.SetActive(!string.IsNullOrEmpty(asConfirmText));
-            cancelText.text = asCancelText;
-            cancelButton.gameObject.SetActive(!string.IsNullOrEmpty(asCancelText));
-            alternateText.text = asAlternateText;
-            alternateButton.gameObject.SetActive(!string.IsNullOrEmpty(asAlternateText));
+            titleText.text = title;
+            titleText.gameObject.SetActive(!string.IsNullOrEmpty(title));
+            bodyText.text = body;
+            bodyText.gameObject.SetActive(!string.IsNullOrEmpty(body));
+            confirmText.text = confirm;
+            confirmButton.gameObject.SetActive(!string.IsNullOrEmpty(confirm));
+            cancelText.text = cancel;
+            cancelButton.gameObject.SetActive(!string.IsNullOrEmpty(cancel));
+            alternateText.text = alternate;
+            alternateButton.gameObject.SetActive(!string.IsNullOrEmpty(alternate));
         }
 
         /// <summary>
-        /// Transitions in a <see cref="MenuDialogue"/> with one <see cref="Button"/> and returns a <see cref="Promise"/> that resolves with the selected 
-        /// <see cref="Button"/> result when the <see cref="MenuTransition"/> is complete (Note: Callbacks execute before the <see cref="Promise"/> resolves).
+        /// Transitions in a <see cref="MenuDialogue"/> with one <see cref="Button"/> and returns a <see cref="Promise"/> that resolves with a <see cref="MenuDialogueResult"/>
+        /// result when the <see cref="MenuTransition"/> is complete (Note: Callbacks execute before the <see cref="Promise"/> resolves).
         /// </summary>
-        public IPromise<MenuDialogueResult> Show(string asTitleText, string asBodyText, string asConfirmText, Action akOnConfirm = null)
+        public IPromise<MenuDialogueResult> Show(in string title, in string body, in string confirm, Action onConfirm = null)
         {
-            return ShowInternal(asTitleText, asBodyText, asConfirmText, null, null, akOnConfirm, null, null);
+            return ShowInternal(title, body, confirm, null, null, onConfirm, null, null);
         }
 
         /// <summary>
-        /// Transitions in a <see cref="MenuDialogue"/> with two <see cref="Button"/>s and returns a Promise that resolves with the selected 
-        /// <see cref="Button"/> result when the <see cref="MenuTransition"/> is complete (Note: Callbacks execute before the <see cref="Promise"/> resolves).
+        /// Transitions in a <see cref="MenuDialogue"/> with two <see cref="Button"/>s and returns a Promise that resolves with a <see cref="MenuDialogueResult"/>
+        /// result when the <see cref="MenuTransition"/> is complete (Note: Callbacks execute before the <see cref="Promise"/> resolves).
         /// </summary>
-        public IPromise<MenuDialogueResult> Show(string asTitleText, string asBodyText, string asConfirmText, string asCancelText, Action akOnConfirm = null, Action akOnCancel = null)
+        public IPromise<MenuDialogueResult> Show(in string title, in string body, in string confirm, in string cancel, Action onConfirm = null, Action onCancel = null)
         {
-            return ShowInternal(asTitleText, asBodyText, asConfirmText, asCancelText, null, akOnConfirm, akOnCancel, null);
+            return ShowInternal(title, body, confirm, cancel, null, onConfirm, onCancel, null);
         }
 
         /// <summary>
-        /// Transitions in a <see cref="MenuDialogue"/> with three <see cref="Button"/>s and returns a <see cref="Promise"/> that resolves with the selected 
-        /// <see cref="Button"/> result when the <see cref="MenuTransition"/> is complete (Note: Callbacks execute before the <see cref="Promise"/> resolves).
+        /// Transitions in a <see cref="MenuDialogue"/> with three <see cref="Button"/>s and returns a <see cref="Promise"/> that resolves with a <see cref="MenuDialogueResult"/>
+        /// result when the <see cref="MenuTransition"/> is complete (Note: Callbacks execute before the <see cref="Promise"/> resolves).
         /// </summary>
-        public IPromise<MenuDialogueResult> Show(string asTitleText, string asBodyText, string asConfirmText, string asCancelText, string asAlternateText, Action akOnConfirm = null, Action akOnCancel = null, Action akOnAlternate = null)
+        public IPromise<MenuDialogueResult> Show(in string title, in string body, in string confirm, in string cancel, in string alternate, Action onConfirm = null, Action onCancel = null, Action onAlternate = null)
         {
-            return ShowInternal(asTitleText, asBodyText, asConfirmText, asCancelText, asAlternateText, akOnConfirm, akOnCancel, akOnAlternate);
+            return ShowInternal(title, body, confirm, cancel, alternate, onConfirm, onCancel, onAlternate);
         }
 
         /// <summary>
-        /// Transitions in the <see cref="MenuDialogue"/> and returns a <see cref="Promise"/> that resolves when a <see cref="Button"/> is pressed.
+        /// Transitions in the <see cref="MenuDialogue"/> and returns a <see cref="Promise"/> that resolves with a <see cref="MenuDialogueResult"/> when a <see cref="Button"/> is pressed.
         /// </summary>
-        private IPromise<MenuDialogueResult> ShowInternal(string asTitleText, string asBodyText, string asConfirmText, string asCancelText, string asAlternateText, Action akOnConfirm = null, Action akOnCancel = null, Action akOnAlternate = null)
+        private IPromise<MenuDialogueResult> ShowInternal(in string title, in string body, in string confirm, in string cancel, in string alternate, Action onConfirm = null, Action onCancel = null, Action onAlternate = null)
         {
             if (IsCurrentScreen)
             {
@@ -81,7 +81,7 @@ namespace Vulpes.Menus
 
             IPromise<MenuDialogueResult> promise = Promise<MenuDialogueResult>.Create();
 
-            SetText(asTitleText, asBodyText, asConfirmText, asCancelText, asAlternateText);
+            SetText(title, body, confirm, cancel, alternate);
 
             confirmButton.onClick.RemoveAllListeners();
             cancelButton.onClick.RemoveAllListeners();
@@ -90,21 +90,21 @@ namespace Vulpes.Menus
             confirmButton.onClick.AddListener(() =>
             {
                 HideInternal().Done(() => {
-                    akOnConfirm?.Invoke();
+                    onConfirm?.Invoke();
                     promise.Resolve(MenuDialogueResult.Confirm);
                 });
             });
             cancelButton.onClick.AddListener(() =>
             {
                 HideInternal().Done(() => {
-                    akOnCancel?.Invoke();
+                    onCancel?.Invoke();
                     promise.Resolve(MenuDialogueResult.Cancel);
                 });
             });
             alternateButton.onClick.AddListener(() =>
             {
                 HideInternal().Done(() => {
-                    akOnAlternate?.Invoke();
+                    onAlternate?.Invoke();
                     promise.Resolve(MenuDialogueResult.Alternate);
                 });
             });

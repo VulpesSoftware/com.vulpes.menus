@@ -5,10 +5,10 @@ namespace Vulpes.Menus
 {
     public interface IMenuAlert 
     {
-        IPromise Show(string asMessage, Sprite akIcon, float afDuration);
+        IPromise Show(string message, Sprite icon, float duration);
 
-        IPromise Show(string asMessage, Sprite akIcon, IPromise akPromise);
+        IPromise Show(string message, Sprite icon, IPromise onResolved);
 
-        void UpdateTimer(float afDeltaTime);
+        void UpdateTimer(in float deltaTime);
     }
 }

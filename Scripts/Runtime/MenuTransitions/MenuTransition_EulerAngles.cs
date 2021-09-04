@@ -29,14 +29,14 @@ namespace Vulpes.Menus
 
         protected override void OnTransitionStart() { }
 
-        protected override void OnTransitionUpdate(float afTime)
+        protected override void OnTransitionUpdate(in float time)
         {
             if (useLocalSpace)
             {
-                targetTransform.localEulerAngles = Vector3.LerpUnclamped(start, end, Curve.Evaluate(afTime));
+                targetTransform.localEulerAngles = Vector3.LerpUnclamped(start, end, Curve.Evaluate(time));
             } else
             {
-                targetTransform.eulerAngles = Vector3.LerpUnclamped(start, end, afTime);
+                targetTransform.eulerAngles = Vector3.LerpUnclamped(start, end, time);
             }
         }
 

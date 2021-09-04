@@ -32,14 +32,14 @@ namespace Vulpes.Menus
 
         }
 
-        protected override void OnTransitionUpdate(float afTime)
+        protected override void OnTransitionUpdate(in float time)
         {
             if (useLocalSpace)
             {
-                targetTransform.localPosition = Vector3.LerpUnclamped(start, end, Curve.Evaluate(afTime));
+                targetTransform.localPosition = Vector3.LerpUnclamped(start, end, Curve.Evaluate(time));
             } else
             {
-                targetTransform.position = Vector3.LerpUnclamped(start, end, afTime);
+                targetTransform.position = Vector3.LerpUnclamped(start, end, time);
             }
         }
 
