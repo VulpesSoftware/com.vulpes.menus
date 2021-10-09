@@ -199,30 +199,6 @@ namespace Vulpes.Menus
                     Tooltip.PivotLeft();
                 }
                 Tooltip.SetPosition(localPoint);
-
-                // TODO Find best target for tooltip using highest targeted depth.
-                /*int bestDepth = int.MinValue;
-                IMenuTooltipData bestTooltipData = null;
-                foreach (RaycastResult target in Raycast(mousePosition))
-                {
-                    if (target.depth > bestDepth)
-                    {
-                        IMenuTooltipData tooltipData = target.gameObject.GetComponent<IMenuTooltipData>();
-                        if (tooltipData != null)
-                        {
-                            bestTooltipData = tooltipData;
-                            bestDepth = target.depth;
-                        }
-                    }
-                }
-
-                if (bestTooltipData == null)
-                {
-                    Tooltip.Hide();
-                } else
-                {
-                    Tooltip.Show(bestTooltipData.Title, bestTooltipData.Body);
-                }*/
             }
         }
 
