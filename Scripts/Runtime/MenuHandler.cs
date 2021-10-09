@@ -2,17 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 using Vulpes.Promises;
 
 namespace Vulpes.Menus
 {
     /// <summary>
-    /// The <b>Menu Handler<\b> is responsible for managing and transitioning <b>Menu Screens<\b>.
+    /// The <see cref="MenuHandler"/> is responsible for managing and transitioning <see cref="MenuHandler"/>.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Menu Handler"), RequireComponent(typeof(CanvasGroup)), DefaultExecutionOrder(-50), DisallowMultipleComponent]
     public class MenuHandler : UIBehaviour, IMenuHandler
     {
         [SerializeField] private MenuScreen initialScreen = default;
+
+        /// <summary>
+        /// Reference to the <see cref="RectTransform"/> component of the handler.
+        /// </summary>
+        public RectTransform RectTransform { get; private set; }
+
+        /// <summary>
+        /// Reference to the <see cref="Canvas"/> component of the handler.
+        /// </summary>
+        public Canvas Canvas { get; private set; }
 
         /// <summary>
         /// The event system used by this handler.
@@ -102,6 +115,11 @@ namespace Vulpes.Menus
         public IMenuDialogue Dialogue { get; private set; }
 
         /// <summary>
+        /// Returns the <see cref="IMenuTooltip"/> if it exists.
+        /// </summary>
+        public IMenuTooltip Tooltip { get; private set; }
+
+        /// <summary>
         /// Called when a transition between two <see cref="IMenuScreen"/>s begins (Ordered: Out Screen, In Screen).
         /// </summary>
         public event Action<IMenuScreen, IMenuScreen> OnScreenStateWillChangeEvent;
@@ -115,6 +133,8 @@ namespace Vulpes.Menus
         {
             base.Awake();
             ScreenStack = new Stack<IMenuScreen>();
+            RectTransform = GetComponent<RectTransform>();
+            Canvas = GetComponent<Canvas>();
             EventSystem = EventSystem.current;
             CanvasGroup = GetComponent<CanvasGroup>();
             Screens = GetComponentsInChildren<IMenuScreen>(true);
@@ -125,10 +145,28 @@ namespace Vulpes.Menus
             ScreenStack = new Stack<IMenuScreen>();
             Dialogue = GetScreen<MenuDialogue>();
             Alert = GetComponentInChildren<MenuAlert>(true);
+            Tooltip = GetComponentInChildren<MenuTooltip>(true);
+            if (Tooltip != null)
+            {
+                IMenuTooltipData[] tooltipData = GetComponentsInChildren<IMenuTooltipData>(true);
+                for (int i = 0; i < tooltipData.Length; i++)
+                {
+                    tooltipData[i].Initialize(Tooltip);
+                }
+            }
             if (initialScreen != null)
             {
                 PushScreen(initialScreen);
             }
+        }
+
+        public List<RaycastResult> Raycast(Vector2 position)
+        {
+            PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+            pointerEventData.position = position;
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.RaycastAll(pointerEventData, results);
+            return results;
         }
 
         private void Update()
@@ -140,6 +178,27 @@ namespace Vulpes.Menus
             if (Alert != null)
             {
                 Alert.UpdateTimer(Time.unscaledDeltaTime);
+            }
+            if (Tooltip != null)
+            {
+#if ENABLE_INPUT_SYSTEM
+                Vector2 mousePosition = Mouse.current.position.ReadValue();
+#else
+                Vector2 mousePosition = Input.mousePosition;
+#endif
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    RectTransform, 
+                    mousePosition,
+                    Canvas.renderMode != RenderMode.ScreenSpaceOverlay ? Canvas.worldCamera : null, 
+                    out Vector2 localPoint);
+                if (localPoint.x > 0.0f)
+                {
+                    Tooltip.PivotRight();
+                } else
+                {
+                    Tooltip.PivotLeft();
+                }
+                Tooltip.SetPosition(localPoint);
             }
         }
 
