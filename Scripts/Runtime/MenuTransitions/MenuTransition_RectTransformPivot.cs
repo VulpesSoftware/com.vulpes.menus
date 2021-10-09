@@ -52,9 +52,9 @@ namespace Vulpes.Menus
 
         protected override void OnTransitionStart() { }
 
-        protected override void OnTransitionUpdate(float afTime)
+        protected override void OnTransitionUpdate(in float time)
         {
-            rectTransform.pivot = Vector2.LerpUnclamped(start, end, afTime);
+            rectTransform.pivot = Vector2.LerpUnclamped(start, end, time);
         }
 
         protected override void OnTransitionEnd() { }
