@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 using Vulpes.Promises;
 
 namespace Vulpes.Menus
@@ -143,10 +146,27 @@ namespace Vulpes.Menus
             Dialogue = GetScreen<MenuDialogue>();
             Alert = GetComponentInChildren<MenuAlert>(true);
             Tooltip = GetComponentInChildren<MenuTooltip>(true);
+            if (Tooltip != null)
+            {
+                IMenuTooltipData[] tooltipData = GetComponentsInChildren<IMenuTooltipData>(true);
+                for (int i = 0; i < tooltipData.Length; i++)
+                {
+                    tooltipData[i].Initialize(Tooltip);
+                }
+            }
             if (initialScreen != null)
             {
                 PushScreen(initialScreen);
             }
+        }
+
+        public List<RaycastResult> Raycast(Vector2 position)
+        {
+            PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+            pointerEventData.position = position;
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.RaycastAll(pointerEventData, results);
+            return results;
         }
 
         private void Update()
@@ -159,11 +179,16 @@ namespace Vulpes.Menus
             {
                 Alert.UpdateTimer(Time.unscaledDeltaTime);
             }
-            if (Tooltip != null && Tooltip.IsActive)
+            if (Tooltip != null)
             {
+#if ENABLE_INPUT_SYSTEM
+                Vector2 mousePosition = Mouse.current.position.ReadValue();
+#else
+                Vector2 mousePosition = Input.mousePosition;
+#endif
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     RectTransform, 
-                    Input.mousePosition,
+                    mousePosition,
                     Canvas.renderMode != RenderMode.ScreenSpaceOverlay ? Canvas.worldCamera : null, 
                     out Vector2 localPoint);
                 if (localPoint.x > 0.0f)
@@ -174,6 +199,30 @@ namespace Vulpes.Menus
                     Tooltip.PivotLeft();
                 }
                 Tooltip.SetPosition(localPoint);
+
+                // TODO Find best target for tooltip using highest targeted depth.
+                /*int bestDepth = int.MinValue;
+                IMenuTooltipData bestTooltipData = null;
+                foreach (RaycastResult target in Raycast(mousePosition))
+                {
+                    if (target.depth > bestDepth)
+                    {
+                        IMenuTooltipData tooltipData = target.gameObject.GetComponent<IMenuTooltipData>();
+                        if (tooltipData != null)
+                        {
+                            bestTooltipData = tooltipData;
+                            bestDepth = target.depth;
+                        }
+                    }
+                }
+
+                if (bestTooltipData == null)
+                {
+                    Tooltip.Hide();
+                } else
+                {
+                    Tooltip.Show(bestTooltipData.Title, bestTooltipData.Body);
+                }*/
             }
         }
 

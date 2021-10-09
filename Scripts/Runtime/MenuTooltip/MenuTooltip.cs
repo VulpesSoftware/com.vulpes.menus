@@ -16,14 +16,6 @@ namespace Vulpes.Menus
 
         private CanvasGroup canvasGroup;
 
-        public bool IsActive
-        {
-            get
-            {
-                return gameObject.activeSelf;
-            }
-        }
-
         protected override void Awake()
         {
             base.Awake();

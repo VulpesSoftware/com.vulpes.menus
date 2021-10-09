@@ -4,22 +4,27 @@ using UnityEngine.EventSystems;
 namespace Vulpes.Menus
 {
     [AddComponentMenu("Vulpes/Menus/Menu Tooltip Details")]
-    public sealed class MenuTooltipDetails : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public sealed class MenuTooltipDetails : UIBehaviour, IMenuTooltipData
     {
         public string title;
-        [Multiline(4)]
-        public string body;
+        [TextArea(4, 16)] public string body;
 
-        [SerializeField] private MenuTooltip menuTooltip;
+        private IMenuTooltip tooltip;
+
+        public string Title => title;
+
+        public string Body => body;
+
+        public void Initialize(IMenuTooltip tooltip) => this.tooltip = tooltip;
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            menuTooltip.Show(title, body);
+            tooltip.Show(Title, Body);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            menuTooltip.Hide();
+            tooltip.Hide();
         }
     }
 }
