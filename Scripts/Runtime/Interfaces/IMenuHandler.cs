@@ -45,6 +45,8 @@ namespace Vulpes.Menus
 
         IMenuDialogue Dialogue { get; }
 
+        IMenuLoading Loading { get; }
+
         IPromise PushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
         IPromise PopScreen(in MenuTransitionOptions options = MenuTransitionOptions.Parallel);

@@ -18,12 +18,12 @@ namespace Vulpes.Menus
         [SerializeField] private MenuScreen initialScreen = default;
 
         /// <summary>
-        /// Reference to the <see cref="RectTransform"/> component of the handler.
+        /// Reference to the <see cref="UnityEngine.RectTransform"/> component of the handler.
         /// </summary>
         public RectTransform RectTransform { get; private set; }
 
         /// <summary>
-        /// Reference to the <see cref="Canvas"/> component of the handler.
+        /// Reference to the <see cref="UnityEngine.Canvas"/> component of the handler.
         /// </summary>
         public Canvas Canvas { get; private set; }
 
@@ -120,6 +120,11 @@ namespace Vulpes.Menus
         public IMenuTooltip Tooltip { get; private set; }
 
         /// <summary>
+        /// Returns the <see cref="IMenuLoading"/> if it exists.
+        /// </summary>
+        public IMenuLoading Loading { get; private set; }
+
+        /// <summary>
         /// Called when a transition between two <see cref="IMenuScreen"/>s begins (Ordered: Out Screen, In Screen).
         /// </summary>
         public event Action<IMenuScreen, IMenuScreen> OnScreenStateWillChangeEvent;
@@ -143,9 +148,10 @@ namespace Vulpes.Menus
                 Screens[i].Initialize(this);
             }
             ScreenStack = new Stack<IMenuScreen>();
-            Dialogue = GetScreen<MenuDialogue>();
-            Alert = GetComponentInChildren<MenuAlert>(true);
-            Tooltip = GetComponentInChildren<MenuTooltip>(true);
+            Dialogue = GetComponentInChildren<IMenuDialogue>(true);
+            Alert = GetComponentInChildren<IMenuAlert>(true);
+            Tooltip = GetComponentInChildren<IMenuTooltip>(true);
+            Loading = GetComponentInChildren<IMenuLoading>(true);
             if (Tooltip != null)
             {
                 IMenuTooltipData[] tooltipData = GetComponentsInChildren<IMenuTooltipData>(true);
@@ -162,8 +168,10 @@ namespace Vulpes.Menus
 
         public List<RaycastResult> Raycast(Vector2 position)
         {
-            PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
-            pointerEventData.position = position;
+            PointerEventData pointerEventData = new PointerEventData(EventSystem.current)
+            {
+                position = position
+            };
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.RaycastAll(pointerEventData, results);
             return results;
@@ -205,7 +213,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Pushes a <see cref="IMenuScreen"/> to the stack, transitioning it in and the old one out.
         /// </summary>
-        public IPromise PushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        public IPromise PushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             IMenuScreen outScreen = HasScreen ? CurrentScreen : null;
             ScreenStack.Push(menuScreen);
@@ -215,7 +223,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Pops the <see cref="IMenuScreen"/> at the top of the stack off, transitioning it out and the next available one in.
         /// </summary>
-        public IPromise PopScreen(in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        public IPromise PopScreen(in MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             IMenuScreen outScreen = HasScreen ? ScreenStack.Pop() : null;
             IMenuScreen inScreen = HasScreen ? CurrentScreen : null;
@@ -225,7 +233,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Pops the <see cref="IMenuScreen"/> at the top of the stack off, transitioning it out and the requested one in.
         /// </summary>
-        public IPromise PopPushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        public IPromise PopPushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             IMenuScreen outScreen = HasScreen ? ScreenStack.Pop() : null;
             ScreenStack.Push(menuScreen);
@@ -235,7 +243,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Pops to the requested <see cref="IMenuScreen"/> in the stack.
         /// </summary>
-        private void PopToScreen(IMenuScreen menuScreen, IPromise promise, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        private void PopToScreen(IMenuScreen menuScreen, IPromise promise, in MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             if (CurrentScreen == menuScreen)
             {
@@ -255,7 +263,7 @@ namespace Vulpes.Menus
         /// Pops to the requested <see cref="IMenuScreen"/> if it's present in the stack, returns a <see cref="IPromise"/> 
         /// that will resolve on completion, or reject if the <see cref="IMenuScreen"/> is not in the stack.
         /// </summary>
-        public IPromise PopToScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        public IPromise PopToScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             IPromise promise = Promise.Create();
             if (!ScreenStack.Contains(menuScreen))
@@ -270,7 +278,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Pops all <see cref="IMenuScreen"/>s off the stack, optionally pushing a new one in their place.
         /// </summary>
-        public IPromise PopAllScreens(IMenuScreen menuScreen = null, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        public IPromise PopAllScreens(IMenuScreen menuScreen = null, in MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             IMenuScreen outScreen = HasScreen ? ScreenStack.Pop() : null;
             ScreenStack.Clear();
@@ -284,7 +292,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Forces the stack into a new state containing only the requested <see cref="IMenuScreen"/>.
         /// </summary>
-        public IPromise SetScreenStack(IMenuScreen menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        public IPromise SetScreenStack(IMenuScreen menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             return SetScreenStack(new IMenuScreen[] { menuScreens }, options);
         }
@@ -292,7 +300,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Forces the stack into a new state containing the requested <see cref="MenuScreen"/>s (the final <see cref="MenuScreen"/> in the array will be at the top of the stack).
         /// </summary>
-        public IPromise SetScreenStack(IMenuScreen[] menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        public IPromise SetScreenStack(IMenuScreen[] menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             IMenuScreen outScreen = HasScreen ? ScreenStack.Pop() : null;
             ScreenStack.Clear();
@@ -322,7 +330,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Returns a <see cref="IPromise"/> that resolves when both screens complete their transitions basing the sequence on the specified option.
         /// </summary>
-        private IPromise TransitionScreens(IMenuScreen outScreen, IMenuScreen inScreen, MenuTransitionOptions options = MenuTransitionOptions.Parallel)
+        private IPromise TransitionScreens(IMenuScreen outScreen, IMenuScreen inScreen, MenuTransitionOptions options = MenuTransitionOptions.Sequential)
         {
             if (outScreen != null && inScreen != null)
             {
