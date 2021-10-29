@@ -14,6 +14,8 @@ namespace Vulpes.Menus.Examples
         [SerializeField] private MenuScreen_Play playScreen = default;
         [SerializeField] private MenuScreen_Options optionsScreen = default;
 
+        private float fakeLoadTime;
+
         /// <summary>
         /// Called when this screen finishes transitioning in.
         /// </summary>
@@ -42,14 +44,19 @@ namespace Vulpes.Menus.Examples
 
         private void OnPlayButtonPressed()
         {
-            // Push the play screen sequentially so that it transitions in after this screen transitions out.
-            MenuHandler.PushScreen(optionsScreen, MenuTransitionOptions.Sequential);
+            const float FAKE_TIME_TO_WAIT = 5.0f;
+            // Screen will show, then the operation is called, it will then wait until the operation completes and show progress.
+            MenuHandler.Loading.Show(
+                () => fakeLoadTime = Time.unscaledTime + FAKE_TIME_TO_WAIT, 
+                () => Time.unscaledTime > fakeLoadTime, 
+                () => Mathf.Clamp01(1.0f - ((fakeLoadTime - Time.unscaledTime) / FAKE_TIME_TO_WAIT)))
+                .Done(() => MenuHandler.SetScreenStack(new MenuScreen[] { this, playScreen }));
         }
 
         private void OnOptionsButtonPressed()
         {
             // Push the options screen parallel so that it transitions in while this screen transitions out.
-            MenuHandler.PushScreen(optionsScreen, MenuTransitionOptions.Parallel);
+            MenuHandler.PushScreen(optionsScreen, MenuTransitionOptions.Sequential);
         }
 
         private void OnQuitButtonPressed()

@@ -11,12 +11,22 @@ namespace Vulpes.Menus.Examples
     {
         [SerializeField] private MenuWidget_Slider volumeSlider = default;
         [SerializeField] private MenuWidget_Enumerable musicEnumerable = default;
+        [SerializeField] private Button backButton = default;
 
         public override void OnDidAppear()
         {
             base.OnDidAppear();
-            volumeSlider.OnValueChangedEvent += VolumeSlider_OnValueChangedEvent;
-            musicEnumerable.OnValueChangedEvent += MusicEnumerable_OnValueChangedEvent;
+            volumeSlider.onValueChanged.AddListener(VolumeSlider_OnValueChangedEvent);
+            musicEnumerable.onValueChanged.AddListener(MusicEnumerable_OnValueChangedEvent);
+            backButton.onClick.AddListener(BackButton_OnClick);
+        }
+
+        public override void OnWillDisappear()
+        {
+            base.OnWillDisappear();
+            volumeSlider.onValueChanged.RemoveAllListeners();
+            musicEnumerable.onValueChanged.RemoveAllListeners();
+            backButton.onClick.RemoveAllListeners();
         }
 
         private void VolumeSlider_OnValueChangedEvent(int newValue)
@@ -27,6 +37,11 @@ namespace Vulpes.Menus.Examples
         private void MusicEnumerable_OnValueChangedEvent(int newValue)
         {
             Debug.Log("Tell whatever manages music to change to a new track or something...");
+        }
+
+        private void BackButton_OnClick()
+        {
+            MenuHandler.PopScreen(MenuTransitionOptions.Sequential);
         }
     }
 }

@@ -201,8 +201,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -7447467955311931424, guid: 877ac29a3e66f1e4e86811a7f940db8d,
+    type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -225,6 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -497,7 +499,7 @@ GameObject:
   - component: {fileID: 8454727804853640508}
   - component: {fileID: 8454727804853640483}
   m_Layer: 5
-  m_Name: Widget_Enumerable
+  m_Name: MenuWidget_Enumerable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -547,6 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -574,14 +577,17 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 8454727804380223736}
   value: 0
-  headerText: {fileID: 8454727804275763448}
-  previousButton: {fileID: 8454727804047494464}
-  nextButton: {fileID: 8454727804854203398}
-  text: {fileID: 8454727804027039405}
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
   reverse: 0
   options:
   - Disabled
   - Enabled
+  headerText: {fileID: 8454727804275763448}
+  previousButton: {fileID: 8454727804047494464}
+  nextButton: {fileID: 8454727804854203398}
+  text: {fileID: 8454727804027039405}
 --- !u!114 &8454727804853640508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,8 +705,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -7983329857081941368, guid: 877ac29a3e66f1e4e86811a7f940db8d,
+    type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -723,6 +730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}

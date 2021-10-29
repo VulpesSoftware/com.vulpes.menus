@@ -16,7 +16,7 @@ namespace Vulpes.Menus.Examples
 
         private void UpdateTimerText()
         {
-            timeText.text = fakeTimer.ToString("00:00:00");
+            timeText.text = Mathf.FloorToInt(fakeTimer).ToString();
         }
 
         public override void OnWillAppear()
@@ -47,8 +47,28 @@ namespace Vulpes.Menus.Examples
 
         private void OnQuitButtonPressed()
         {
-            // Pop the screen and go back to the title.
-            MenuHandler.PopScreen();
+            MenuHandler.Dialogue.Show("Quit?", "Are you sure you want to quit?", "To Title", "To Desktop", "Cancel").Done((result) =>
+            {
+                switch (result)
+                {
+                    case MenuDialogueResult.Confirm:
+                        // Pretend to save?
+                        MenuHandler.Alert.Show("Autosaving...", null, 1.5f);
+                        // Pop the screen and go back to the title.
+                        MenuHandler.PopScreen(MenuTransitionOptions.Sequential);
+                        break;
+                    case MenuDialogueResult.Cancel:
+#if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false;
+#else
+                        Application.Quit();
+#endif
+                        break;
+                    case MenuDialogueResult.Alternate:
+                    default:
+                        break;
+                }
+            });
         }
     }
 }
