@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -84,7 +85,7 @@ namespace Vulpes.Menus
         [SerializeField, Tooltip("The value of the Widget.")] 
         protected T value = default;
 
-        public event Action<T> OnValueChangedEvent;
+        public UnityEvent<T> onValueChanged = default;
 
         public virtual T Value
         {
@@ -101,7 +102,7 @@ namespace Vulpes.Menus
 
         protected virtual void OnValueChanged(T newValue)
         {
-            OnValueChangedEvent?.Invoke(newValue);
+            onValueChanged?.Invoke(newValue);
             Select();
         }
     }

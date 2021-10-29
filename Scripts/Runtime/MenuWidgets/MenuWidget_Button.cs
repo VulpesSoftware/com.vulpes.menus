@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Vulpes.Menus
@@ -13,13 +14,11 @@ namespace Vulpes.Menus
     {
         [SerializeField] private TextMeshProUGUI headerText = default;
 
-        public event Action OnClickEvent = default;
+        public UnityEvent onClick = default;
 
-        public void Initialize(string header, Action onClick)
+        public void Initialize(string header)
         {
             headerText.text = header;
-            OnClickEvent -= onClick;
-            OnClickEvent += onClick;
         }
 
         public override void OnMove(AxisEventData eventData)
@@ -42,13 +41,13 @@ namespace Vulpes.Menus
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
-            OnClickEvent?.Invoke();
+            onClick?.Invoke();
         }
 
         public override void OnSubmit(BaseEventData eventData)
         {
             base.OnSubmit(eventData);
-            OnClickEvent?.Invoke();
+            onClick?.Invoke();
         }
     }
 }
