@@ -4,6 +4,17 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.0-preview.1] - 2021-10-28
+### Changed
+- Stripped down MenuLoading class.
+- Removed Loading Screen Tip class.
+- MenuWidget value changed and click events are now UnityEvents rather than Action based events.
+- Updated Example Assets.
+- Changed default MenuTransitionOption to Sequential, was Parallel.
+- MenuHandler will now correctly get Alert, Dialogue, and Tooltip using their relevant interfaces rather than base classes.
+- MenuHandler now includes an interface reference to the Loading Screen.
+- Loading Screen spinner now uses unscaled deltatime in its rotation.
+
 ## [0.5.0-preview.1] - 2021-10-10
 ### Changed
 - Add Unity Input System Package as a dependency.
