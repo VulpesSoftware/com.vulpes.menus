@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using Vulpes.Promises;
+using Vulpes.Transitions;
 
 namespace Vulpes.Menus
 {
@@ -11,8 +12,8 @@ namespace Vulpes.Menus
     {
         [SerializeField] private TextMeshProUGUI titleText = default;
         [SerializeField] private TextMeshProUGUI bodyText = default;
-        [SerializeField] private MenuTransition transition = default;
-        [SerializeField] private MenuTransition_RectTransformPivot pivotTransition = default;
+        [SerializeField] private Transition transition = default;
+        [SerializeField] private Transition_RectTransformPivot pivotTransition = default;
 
         private CanvasGroup canvasGroup;
 
@@ -33,12 +34,12 @@ namespace Vulpes.Menus
         public IPromise Show(string title, string body)
         {
             SetText(title, body);
-            return transition.Play(MenuTransitionMode.Forward);
+            return transition.Play(TransitionMode.Forward);
         }
 
         public IPromise Hide()
         {
-            return transition.Play(MenuTransitionMode.Reverse);
+            return transition.Play(TransitionMode.Reverse);
         }
 
         public void SetText(string title, string body)
@@ -56,17 +57,17 @@ namespace Vulpes.Menus
 
         public void PivotLeft()
         {
-            if (pivotTransition != null && pivotTransition.Mode != MenuTransitionMode.Reverse)
+            if (pivotTransition != null && pivotTransition.Mode != TransitionMode.Reverse)
             {
-                pivotTransition.Play(MenuTransitionMode.Reverse);
+                pivotTransition.Play(TransitionMode.Reverse);
             }
         }
 
         public void PivotRight()
         {
-            if (pivotTransition != null && pivotTransition.Mode != MenuTransitionMode.Forward)
+            if (pivotTransition != null && pivotTransition.Mode != TransitionMode.Forward)
             {
-                pivotTransition.Play(MenuTransitionMode.Forward);
+                pivotTransition.Play(TransitionMode.Forward);
             }
         }
     }

@@ -62,11 +62,11 @@ namespace Vulpes.Menus.Examples
         private void OnQuitButtonPressed()
         {
             // Show a popup to see if the user actually wants to quit.
-            MenuHandler.Dialogue.Show("Quit?", "Are you sure you want to quit?", "Yes", "No")
+            MenuHandler.Modal.Show("Quit?", "Are you sure you want to quit?", "Yes", "No")
                 .Then(result =>
                 {
                     // Only quit if the user presses the Confirm / Yes button.
-                    if (result == MenuDialogueResult.Confirm)
+                    if (result == MenuModalResult.Confirm)
                     {
 #if UNITY_EDITOR
                         UnityEditor.EditorApplication.isPlaying = false;

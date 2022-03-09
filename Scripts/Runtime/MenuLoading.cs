@@ -77,5 +77,20 @@ namespace Vulpes.Menus
                 .Done(promise.Resolve);
             return promise;
         }
+
+        public IPromise Show(AsyncOperation asyncOperation)
+        {
+            IPromise promise = Promise.Create();
+            // The AsyncOperation starts immediately and cannot be stopped so we'll stop it to allow the Loading Screen to appear.
+            asyncOperation.allowSceneActivation = false;
+
+            MenuHandler.SetScreenStack(this)
+                .Then(() => promiseTimer.WaitUntil(ao => {
+                    SetProgress(asyncOperation.progress);
+                    return asyncOperation.isDone;
+                }))
+                .Done(promise.Resolve);
+            return promise;
+        }
     }
 }

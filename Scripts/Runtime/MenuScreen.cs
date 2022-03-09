@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Vulpes.Promises;
+using Vulpes.Transitions;
 
 namespace Vulpes.Menus
 {
@@ -24,7 +25,7 @@ namespace Vulpes.Menus
         protected Selectable defaultSelection = default;
 
         [SerializeField, Tooltip("If assigned the menu will use this transition when transitioning in and out.")] 
-        protected MenuTransition transition = default;
+        protected Transition transition = default;
 
         /// <summary>
         /// Called when the <see cref="MenuScreen"/> will appear (executed after the <see cref="OnWillAppear"/> method for this screen).
@@ -171,7 +172,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Returns a <see cref="Promise"/> that resolves when this <see cref="MenuScreen"/> finishes transitioning in.
         /// </summary>
-        public IPromise TransitionIn(bool abInstant = false)
+        public IPromise TransitionIn(bool instant = false)
         {
             if (transitionInPromise != null)
             {
@@ -190,7 +191,7 @@ namespace Vulpes.Menus
             OnWillAppearEvent?.Invoke();
             if (transition != null)
             {
-                transition.Play(MenuTransitionMode.Forward, abInstant).Done(() =>
+                transition.Play(TransitionMode.Forward, instant).Done(() =>
                 {
                     // TBH: This is where the standard resume time logic was.
                     Interactable = true;
@@ -220,7 +221,7 @@ namespace Vulpes.Menus
         /// <summary>
         /// Returns a <see cref="Promise"/> that resolves when this <see cref="MenuScreen"/> finishes transitioning out.
         /// </summary>
-        public IPromise TransitionOut(bool abInstant = false)
+        public IPromise TransitionOut(bool instant = false)
         {
             if (transitionOutPromise != null)
             {
@@ -244,7 +245,7 @@ namespace Vulpes.Menus
             OnWillDisappearEvent?.Invoke();
             if (transition != null)
             {
-                transition.Play(MenuTransitionMode.Reverse, abInstant).Done(() =>
+                transition.Play(TransitionMode.Reverse, instant).Done(() =>
                 {
                     gameObject.SetActive(false);
                     OnStateChangedEvent?.Invoke(State, MenuScreenState.Out);

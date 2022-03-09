@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Vulpes.Promises;
+using Vulpes.Transitions;
 
 namespace Vulpes.Menus
 {
@@ -15,7 +16,7 @@ namespace Vulpes.Menus
     {
         [SerializeField] private TextMeshProUGUI alertText = default;
         [SerializeField] private Image iconImage = default;
-        [SerializeField] private MenuTransition transition = default;
+        [SerializeField] private Transition transition = default;
 
         private IPromise promiseChain;
         private PromiseTimer promiseTimer;
@@ -55,18 +56,18 @@ namespace Vulpes.Menus
             if (promiseChain == null)
             {
                 SetMessageAndIcon(message, icon);
-                promiseChain = transition.Play(MenuTransitionMode.Forward)
+                promiseChain = transition.Play(TransitionMode.Forward)
                     .Then(() => promiseTimer.WaitFor(duration))
-                    .Then(() => transition.Play(MenuTransitionMode.Reverse))
-                    .Then(() => promise.Resolve());
+                    .Then(() => transition.Play(TransitionMode.Reverse))
+                    .Then(promise.Resolve);
             } else
             {
                 promiseChain = promiseChain
                     .Then(() => SetMessageAndIcon(message, icon))
-                    .Then(() => transition.Play(MenuTransitionMode.Forward))
+                    .Then(() => transition.Play(TransitionMode.Forward))
                     .Then(() => promiseTimer.WaitFor(duration))
-                    .Then(() => transition.Play(MenuTransitionMode.Reverse))
-                    .Then(() => promise.Resolve());
+                    .Then(() => transition.Play(TransitionMode.Reverse))
+                    .Then(promise.Resolve);
             }
             return promise;
         }
@@ -81,20 +82,20 @@ namespace Vulpes.Menus
             if (promiseChain == null)
             {
                 SetMessageAndIcon(message, icon);
-                promiseChain = transition.Play(MenuTransitionMode.Forward)
+                promiseChain = transition.Play(TransitionMode.Forward)
                     .Then(() => onResolved)
                     .Then(() => promiseTimer.WaitFor(1.0f))
-                    .Then(() => transition.Play(MenuTransitionMode.Reverse))
-                    .Then(() => promise.Resolve());
+                    .Then(() => transition.Play(TransitionMode.Reverse))
+                    .Then(promise.Resolve);
             } else
             {
                 promiseChain = promiseChain
                     .Then(() => SetMessageAndIcon(message, icon))
-                    .Then(() => transition.Play(MenuTransitionMode.Forward))
+                    .Then(() => transition.Play(TransitionMode.Forward))
                     .Then(() => onResolved)
                     .Then(() => promiseTimer.WaitFor(1.0f))
-                    .Then(() => transition.Play(MenuTransitionMode.Reverse))
-                    .Then(() => promise.Resolve());
+                    .Then(() => transition.Play(TransitionMode.Reverse))
+                    .Then(promise.Resolve);
             }
             return promise;
         }

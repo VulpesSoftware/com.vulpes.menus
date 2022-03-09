@@ -47,24 +47,24 @@ namespace Vulpes.Menus.Examples
 
         private void OnQuitButtonPressed()
         {
-            MenuHandler.Dialogue.Show("Quit?", "Are you sure you want to quit?", "To Title", "To Desktop", "Cancel").Done((result) =>
+            MenuHandler.Modal.Show("Quit?", "Are you sure you want to quit?", "To Title", "To Desktop", "Cancel").Done((result) =>
             {
                 switch (result)
                 {
-                    case MenuDialogueResult.Confirm:
+                    case MenuModalResult.Confirm:
                         // Pretend to save?
                         MenuHandler.Alert.Show("Autosaving...", null, 1.5f);
                         // Pop the screen and go back to the title.
                         MenuHandler.PopScreen(MenuTransitionOptions.Sequential);
                         break;
-                    case MenuDialogueResult.Cancel:
+                    case MenuModalResult.Cancel:
 #if UNITY_EDITOR
                         UnityEditor.EditorApplication.isPlaying = false;
 #else
                         Application.Quit();
 #endif
                         break;
-                    case MenuDialogueResult.Alternate:
+                    case MenuModalResult.Alternate:
                     default:
                         break;
                 }

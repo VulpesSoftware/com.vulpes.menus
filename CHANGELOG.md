@@ -4,6 +4,14 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.9.0-preview.1] - 2022-03-09
+### Changed
+- Renamed 'IMenuDialogue' and 'MenuDialogue' to 'IMenuModal' and 'MenuModal' respectively.
+- Renamed 'MenuHandler.Dialogue' to 'MenuHandler.Modal'.
+- Removed 'MenuTransition' classes and moved them into their own package 'com.vulpes.transitions'.
+- Added 'com.vulpes.transitions' as a package dependency.
+- Other updates preparing package for 1.0.0 release.
+
 ## [0.6.0-preview.1] - 2021-10-28
 ### Changed
 - Stripped down MenuLoading class.

@@ -43,23 +43,23 @@ namespace Vulpes.Menus
 
         IMenuAlert Alert { get; }
 
-        IMenuDialogue Dialogue { get; }
+        IMenuModal Modal { get; }
 
         IMenuLoading Loading { get; }
 
-        IPromise PushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+        IPromise PushScreen(IMenuScreen menuScreen, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise PopScreen(in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+        IPromise PopScreen(MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise PopPushScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+        IPromise PopPushScreen(IMenuScreen menuScreen, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise PopToScreen(IMenuScreen menuScreen, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+        IPromise PopToScreen(IMenuScreen menuScreen, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise PopAllScreens(IMenuScreen menuScreen = null, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+        IPromise PopAllScreens(IMenuScreen menuScreen = null, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise SetScreenStack(IMenuScreen menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+        IPromise SetScreenStack(IMenuScreen menuScreens, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
-        IPromise SetScreenStack(IMenuScreen[] menuScreens, in MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+        IPromise SetScreenStack(IMenuScreen[] menuScreens, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
         T GetScreen<T>() where T : IMenuScreen;
     }

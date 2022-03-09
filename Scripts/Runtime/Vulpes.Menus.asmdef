@@ -1,10 +1,12 @@
 {
     "name": "Vulpes.Menus",
+    "rootNamespace": "Vulpes.Menus",
     "references": [
         "UnityEngine.UI",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "Vulpes.Promises"
+        "Vulpes.Promises",
+        "Vulpes.Transitions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
