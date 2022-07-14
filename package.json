@@ -1,8 +1,8 @@
 {
   "name": "com.vulpes.menus",
   "displayName": "Vulpes Menu Framework",
-  "version": "1.0.0",
-  "unity": "2021.2",
+  "version": "1.0.1",
+  "unity": "2021.3",
   "description": "A Promise driven game menu framework for Unity.",
   "keywords": [
     "vulpes",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "com.unity.ugui": "1.0.0",
-    "com.unity.textmeshpro": "2.0.1",
+    "com.unity.textmeshpro": "3.0.6",
     "com.unity.inputsystem": "1.0.2",
     "com.vulpes.transitions": "1.0.0",
     "com.vulpes.promises": "2.0.0"
@@ -28,5 +28,5 @@
       "path": "Samples~/Menu Samples"
     }
   ],
-  "unityRelease": "0f1"
+  "unityRelease": "6f1"
 }

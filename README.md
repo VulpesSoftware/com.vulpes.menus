@@ -1,10 +1,6 @@
 # Vulpes Menu Framework
 
-*This is a preview package and is subject to radical change, please use at your own peril.*
-
 A Promise driven game menu framework for Unity.
-
-*NOTE:* This Package depends on '[com.vulpes.promises](https://github.com/VulpesSoftware/com.vulpes.promises.git#1.0.0)'.
 
 ## Installing this package
 
@@ -40,11 +36,6 @@ Several features and changes are currently under investigation and may or may no
 - Color Profile System for quick UI color changes at runtime (Accessibility).
   - Assessing how to best support tints for buttons, toggles, sliders, etc.
   - Assessing options for swapping entire sprites.
-
-*Planned:*
-- Genericising Menu Transition Components and spliting them into their own package that isn't dependent on the Menu Framework (Modularity).
-  - Vulpes Transitions package is currently in an internal preview state.
-  - Likely to be released along with Vulpes Menu Framework version 0.5.0-preview.1 or 0.6.0-preview.1 at the latest.
 
  *Under Consideration*
 - Use of the Unity Jobs System or Threading / Tasks as an alternative to Promises (Performance).

@@ -4,6 +4,11 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2022-07-14
+### Changed
+- Updated Unity Version from 2021.2.0f1 to 2021.3.6f1
+- Updated Text Mesh Pro version from 2.0.1 to 3.0.6 due to a GitHub security warning regarding the package.
+
 ## [1.0.0] - 2022-03-14
 ### Changed
 - Updated Promises Package dependency from 1.1.0 to 2.0.0.
