@@ -4,6 +4,12 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2023-01-22
+### Changed
+- Changed Unity Version from 2021.3.6f1 to 2021.3.0f1.
+- Updated Promises Package dependency from 2.0.0 to 2.1.1.
+- Updated Transitions Package dependency from 1.0.0 to 1.0.2.
+
 ## [1.0.1] - 2022-07-14
 ### Changed
 - Updated Unity Version from 2021.2.0f1 to 2021.3.6f1
