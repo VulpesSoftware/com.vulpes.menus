@@ -15,10 +15,7 @@ namespace Vulpes.Menus
 
         public override string Value
         {
-            get
-            {
-                return inputField.text;
-            }
+            get => inputField.text;
             set
             {
                 inputField.text = value;

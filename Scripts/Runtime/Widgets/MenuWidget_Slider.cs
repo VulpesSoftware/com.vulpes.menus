@@ -24,6 +24,10 @@ namespace Vulpes.Menus
         [SerializeField] private Slider slider = default;
         [SerializeField] private TMP_InputField inputField = default;
 
+        public int MinValue => minValue;
+
+        public int MaxValue => maxValue;
+
         public void Initialize(string header, int value, int minValue, int maxValue, int stepValue)
         {
             headerText.text = header;
@@ -31,6 +35,15 @@ namespace Vulpes.Menus
             this.minValue = minValue;
             this.maxValue = maxValue;
             this.stepValue = stepValue;
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            if (minValue > maxValue)
+            {
+                minValue = maxValue;
+            }
         }
 
         protected override void Awake()
@@ -77,14 +90,10 @@ namespace Vulpes.Menus
         }
 
         private void OnPreviousButtonClick()
-        {
-            Value = Mathf.Max(minValue, Value - stepValue);
-        }
+            => Value = Mathf.Max(minValue, Value - stepValue);
 
         private void OnNextButtonClick()
-        {
-            Value = Mathf.Min(maxValue, Value + stepValue);
-        }
+            => Value = Mathf.Min(maxValue, Value + stepValue);
 
         private void OnInputFieldEndEdit(string text)
         {
@@ -96,14 +105,10 @@ namespace Vulpes.Menus
         }
 
         private void OnInputFieldSubmit(string text)
-        {
-            Select();
-        }
+            => Select();
 
         private void OnSliderValueChanged(float value)
-        {
-            Value = Mathf.Clamp((int)value, minValue, maxValue);
-        }
+            => Value = Mathf.Clamp((int)value, minValue, maxValue);
 
         public override void OnSubmit(BaseEventData eventData)
         {

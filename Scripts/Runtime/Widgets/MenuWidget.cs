@@ -10,14 +10,9 @@ namespace Vulpes.Menus
     /// Base class for all <see cref="MenuWidget"/>.
     /// </summary>
     [DisallowMultipleComponent]
-    public abstract class MenuWidget : Selectable, IPointerClickHandler, ISubmitHandler 
+    public abstract class MenuWidget : Selectable, ISubmitHandler
     {
         private ScrollRect scrollRect;
-
-        public event Action<BaseEventData> OnSelectEvent;
-        public event Action<PointerEventData> OnPointerEnterEvent;
-        public event Action<PointerEventData> OnPointerClickEvent;
-        public event Action<BaseEventData> OnSubmitEvent;
 
         protected override void Awake()
         {
@@ -28,7 +23,6 @@ namespace Vulpes.Menus
         public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);
-            OnSelectEvent?.Invoke(eventData);
             if (scrollRect != null)
             {
                 // FIXME This is for automatically scrolling the scroll view up and down, need to make sure it's working as intended.
@@ -54,25 +48,11 @@ namespace Vulpes.Menus
                     return;
                 }
                 float normalizedDesiredY = (desiredBoundY + contentHeight) / (contentHeight - viewportHeight);
-                scrollRect.normalizedPosition = new Vector2(0.0f, Mathf.Clamp01(normalizedDesiredY));
+                scrollRect.normalizedPosition = new(0.0f, Mathf.Clamp01(normalizedDesiredY));
             }
         }
 
-        public override void OnPointerEnter(PointerEventData eventData)
-        {
-            base.OnPointerEnter(eventData);
-            OnPointerEnterEvent?.Invoke(eventData);
-        }
-
-        public virtual void OnPointerClick(PointerEventData eventData)
-        {
-            OnPointerClickEvent?.Invoke(eventData);
-        }
-
-        public virtual void OnSubmit(BaseEventData eventData)
-        {
-            OnSubmitEvent?.Invoke(eventData);
-        }
+        public virtual void OnSubmit(BaseEventData eventData) { }
     }
 
     /// <summary>
@@ -85,14 +65,11 @@ namespace Vulpes.Menus
         [SerializeField, Tooltip("The value of the Widget.")] 
         protected T value = default;
 
-        public UnityEvent<T> onValueChanged = default;
+        public UnityEvent<T> onValueChanged = new();
 
         public virtual T Value
         {
-            get
-            {
-                return value;
-            }
+            get => value;
             set
             {
                 this.value = value;
@@ -102,7 +79,7 @@ namespace Vulpes.Menus
 
         protected virtual void OnValueChanged(T newValue)
         {
-            onValueChanged?.Invoke(newValue);
+            onValueChanged.Invoke(newValue);
             Select();
         }
     }

@@ -28,14 +28,8 @@ namespace Vulpes.Menus
 
         public string[] Options
         {
-            get
-            {
-                return options;
-            }
-            set
-            {
-                options = value;
-            }
+            get => options;
+            set => options = value;
         }
 
         public void Initialize(string header, int index, string[] options)

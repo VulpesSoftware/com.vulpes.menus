@@ -15,20 +15,12 @@ namespace Vulpes.Menus
 
         public override int Value
         {
-            get
-            {
-                return dropdown.value;
-            }
-            set
-            {
-                dropdown.value = value;
-            }
+            get => dropdown.value;
+            set => dropdown.value = value;
         }
 
         public void Initialize(string header)
-        {
-            headerText.text = header;
-        }
+            => headerText.text = header;
 
         protected override void Awake()
         {

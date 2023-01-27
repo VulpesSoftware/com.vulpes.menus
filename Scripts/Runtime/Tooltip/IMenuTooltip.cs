@@ -5,7 +5,7 @@ namespace Vulpes.Menus
 {
     public interface IMenuTooltip
     {
-        IPromise Show(string title, string body);
+        IPromise Show(in string title, in string body);
 
         IPromise Hide();
 

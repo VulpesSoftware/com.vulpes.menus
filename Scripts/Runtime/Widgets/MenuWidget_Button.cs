@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -10,16 +9,14 @@ namespace Vulpes.Menus
     /// <see cref="MenuWidget"/> Button.
     /// </summary>
     [AddComponentMenu("Vulpes/Menus/Widgets/Button")]
-    public sealed class MenuWidget_Button : MenuWidget
+    public sealed class MenuWidget_Button : MenuWidget, IPointerClickHandler
     {
         [SerializeField] private TextMeshProUGUI headerText = default;
 
-        public UnityEvent onClick = default;
+        public UnityEvent onClick = new();
 
         public void Initialize(string header)
-        {
-            headerText.text = header;
-        }
+            => headerText.text = header;
 
         public override void OnMove(AxisEventData eventData)
         {
@@ -38,16 +35,13 @@ namespace Vulpes.Menus
             }
         }
 
-        public override void OnPointerClick(PointerEventData eventData)
-        {
-            base.OnPointerClick(eventData);
-            onClick?.Invoke();
-        }
+        public void OnPointerClick(PointerEventData eventData)
+            => onClick.Invoke();
 
         public override void OnSubmit(BaseEventData eventData)
         {
             base.OnSubmit(eventData);
-            onClick?.Invoke();
+            onClick.Invoke();
         }
     }
 }
