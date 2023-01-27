@@ -4,6 +4,35 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2023-01-27
+### Changed
+- Simplified a lot of interfaces by removing redundant methods and properties.
+- Most classes now have the 'DisallowMultipleComponent' attribute.
+- Cleaned up some of the code to make things more concise.
+- For 'MenuScreens' the 'TransitionIn' and 'TransitionOut' now take a 'MenuScreenTransitionContext' as an argument instead of a boolean value.
+- The 'MenuHandler' no longer requires a 'CanvasGroup' component and instead requires a 'Canvas' component.
+- On the 'MenuHandler', the 'Visible' property now directly toggles the 'Canvas' component on and off rather than awkwardly setting the alpha value of the 'CanvasGroup'.
+- Removed 'MenuTooltip' logic from 'MenuHandler', that logic is now included in an optional 'MenuTooltipHandler' component which should be added to the same object as the 'MenuHandler' if you are using the 'MenuTooltip' as part of your menus.
+- 'MenuHandler' no longer manages 'EventSystem' selections.
+- Moved 'Raycast' method from 'MenuHandler' to new optional component 'MenuRaycaster'.
+- Separated screen stack logic from 'IMenuHandler' into new 'IMenuStack' interface.
+- Renamed 'MenuTooltipDetails' to 'MenuTooltipContent'.
+- Updated Transitions Package dependency from 1.0.2 to 1.0.3.
+
+### Fixed
+- 'MenuModal' and 'MenuLoading' can no longer be assigned as the MenuHandler's initial screen.
+- Fixed issue where 'null' could incorrectly be pushed to the screen stack, potentially causing a Null Reference Exception, attempting to push 'null' will now return a rejected Promise.
+
+### Added
+- Added 'MenuScreenTransitionContext' struct.
+- Added 'MenuWidget_Toggle' class.
+- Added 'MenuRaycaster' class.
+- Added 'MenuTooltipHandler' class.
+- Added 'IMenuStack' interface.
+- Added 'IMenuTooltipProvider' interface.
+- Added new Menu Sample assets.
+- Added Documentation.
+
 ## [1.0.2] - 2023-01-22
 ### Changed
 - Changed Unity Version from 2021.3.6f1 to 2021.3.0f1.
