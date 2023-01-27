@@ -1,6 +1,6 @@
 # Vulpes Menu Framework
 
-A Promise driven game menu framework for Unity.
+The Vulpes Menu Framework is a Promise driven menu system that serves as a companion to Unity’s built-in UI system.
 
 ## Installing this package
 
