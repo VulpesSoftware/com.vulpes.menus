@@ -24,19 +24,4 @@ To use this library efficiently you should first learn about Promises:
 
 ## Samples
 
-The current Samples included with this package are in an incomplete state and may not always be updated from version to version, a proper comprehensive collection of sample assets will be included in version 1.0.0 of this package whenever it is released.
-
-## Current Development Roadmap
-
-Several features and changes are currently under investigation and may or may not be added to the package in the future.
-
-*In Progress:*
-- Tooltip component for displaying a floating text box at the mouse position when hovering over certain objects (UX).
-  - Investigating ways of supporting tooltip popup when a Gamepad is in use.
-- Color Profile System for quick UI color changes at runtime (Accessibility).
-  - Assessing how to best support tints for buttons, toggles, sliders, etc.
-  - Assessing options for swapping entire sprites.
-
- *Under Consideration*
-- Use of the Unity Jobs System or Threading / Tasks as an alternative to Promises (Performance).
-  - Currently in very early phase of investigation.
+As of version 2.0.0 a new set of Samples have been added. To use these samples please ensure both sample scenes are added to your build settings.
