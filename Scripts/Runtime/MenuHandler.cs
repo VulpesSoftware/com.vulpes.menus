@@ -75,9 +75,9 @@ namespace Vulpes.Menus
         /// </summary>
         public IMenuModal Modal { get; private set; }
 
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
-            base.OnValidate();
             switch (initialScreen)
             {
                 case IMenuLoading:
@@ -89,6 +89,7 @@ namespace Vulpes.Menus
                     break;
             }
         }
+#endif
 
         protected override void Awake()
         {

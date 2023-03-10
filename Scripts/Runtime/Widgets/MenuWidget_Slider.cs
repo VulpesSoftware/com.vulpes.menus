@@ -37,14 +37,15 @@ namespace Vulpes.Menus
             this.stepValue = stepValue;
         }
 
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
-            base.OnValidate();
             if (minValue > maxValue)
             {
                 minValue = maxValue;
             }
         }
+#endif
 
         protected override void Awake()
         {
