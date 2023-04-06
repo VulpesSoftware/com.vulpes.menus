@@ -4,6 +4,10 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2023-04-06
+### Added
+- Added MenuStackSnapshot to allow for caching and restoring of particular screen stack states.
+
 ## [2.0.2] - 2023-03-10
 ### Changed
 - Wrapped OnValidate in editor only tags for MenuHandler and MenuWidget_Slider.
