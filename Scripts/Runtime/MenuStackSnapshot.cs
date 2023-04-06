@@ -11,12 +11,17 @@ namespace Vulpes.Menus
 
         public MenuStackSnapshot(Stack<IMenuScreen> screenStack)
         {
-            Stack<IMenuScreen> reversedScreenStack = new();
-            while (screenStack.Count > 0)
+            menuScreens = screenStack.ToArray();
+            int i = 0;
+            int j = menuScreens.Length - 1;
+            while (i < j)
             {
-                reversedScreenStack.Push(screenStack.Pop());
+                IMenuScreen temp = menuScreens[i];
+                menuScreens[i] = menuScreens[j];
+                menuScreens[j] = temp;
+                i++;
+                j--;
             }
-            menuScreens = reversedScreenStack.ToArray();
         }
     }
 }
