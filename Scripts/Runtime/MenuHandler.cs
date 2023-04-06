@@ -306,6 +306,18 @@ namespace Vulpes.Menus
         }
 
         /// <summary>
+        /// Forces the stack into a new state based on the provided <see cref="MenuStackSnapshot"/>.
+        /// </summary>
+        public IPromise SetScreenStack(MenuStackSnapshot snapshot, MenuTransitionOptions options = MenuTransitionOptions.Sequential)
+            => SetScreenStack(snapshot.menuScreens, options);
+
+        /// <summary>
+        /// Returns a <see cref="MenuStackSnapshot"/> based on the current stack for later use.
+        /// </summary>
+        public MenuStackSnapshot GetCurrentMenuStackSnapshot()
+            => new(ScreenStack);
+
+        /// <summary>
         /// Returns a reference to the Component of Type 'T' if any of the <see cref="IMenuScreen"/>s available to this <see cref="MenuHandler"/>s are of Type 'T'.
         /// </summary>
         public T GetScreen<T>() where T : IMenuScreen

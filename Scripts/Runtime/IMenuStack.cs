@@ -33,5 +33,9 @@ namespace Vulpes.Menus
         IPromise SetScreenStack(IMenuScreen menuScreens, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
 
         IPromise SetScreenStack(IMenuScreen[] menuScreens, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+
+        IPromise SetScreenStack(MenuStackSnapshot snapshot, MenuTransitionOptions options = MenuTransitionOptions.Parallel);
+
+        MenuStackSnapshot GetCurrentMenuStackSnapshot();
     }
 }
