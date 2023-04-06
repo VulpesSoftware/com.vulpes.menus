@@ -309,7 +309,13 @@ namespace Vulpes.Menus
         /// Forces the stack into a new state based on the provided <see cref="MenuStackSnapshot"/>.
         /// </summary>
         public IPromise SetScreenStack(MenuStackSnapshot snapshot, MenuTransitionOptions options = MenuTransitionOptions.Sequential)
-            => SetScreenStack(snapshot.menuScreens, options);
+        {
+            if (snapshot.menuScreens == null || snapshot.menuScreens.Length == 0)
+            {
+                return PopAllScreens();
+            }
+            return SetScreenStack(snapshot.menuScreens, options);
+        }
 
         /// <summary>
         /// Returns a <see cref="MenuStackSnapshot"/> based on the current stack for later use.
