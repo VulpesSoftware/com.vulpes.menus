@@ -1,7 +1,7 @@
 {
   "name": "com.vulpes.menus",
   "displayName": "Vulpes Menu Framework",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "unity": "2021.3",
   "description": "The Vulpes Menu Framework is a Promise driven menu system that serves as a companion to Unity\u2019s built-in UI system.",
   "keywords": [
