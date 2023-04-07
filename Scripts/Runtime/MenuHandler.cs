@@ -16,6 +16,26 @@ namespace Vulpes.Menus
         private Canvas canvas;
         private IMenuScreen[] screens;
 
+#if VULPES_MENUS_SINGLETON
+        private static MenuHandler instance;
+
+        public static MenuHandler Instance 
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<MenuHandler>(false);
+                    if (instance == null)
+                    {
+                        Debug.LogError($"Could not find an active MenuHandler instance.");
+                    }
+                }
+                return instance;
+            }
+        }
+#endif
+
         /// <summary>
         /// Used to control visibility of all screens managed by this handler.
         /// </summary>
